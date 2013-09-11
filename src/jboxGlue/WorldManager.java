@@ -15,6 +15,7 @@ public class WorldManager
 		ourWorld = null;
 	}
 	
+	
 	public static World getWorld( )
 	{
 		// make sure we have a world, just in case...
@@ -28,6 +29,7 @@ public class WorldManager
 	
 	public static void initWorld( JGEngine engine )
 	{
+		//@Tyler creates the bounding region
 		AABB worldBounds = new AABB(
 			new Vec2( 0, 0 ),
 			new Vec2( engine.displayWidth(), engine.displayHeight() )

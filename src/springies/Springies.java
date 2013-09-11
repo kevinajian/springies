@@ -1,6 +1,7 @@
 package springies;
 
 import jboxGlue.PhysicalObject;
+import jboxGlue.PhysicalObjectBouncyBall;
 import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.PhysicalObjectRect;
 import jboxGlue.WorldManager;
@@ -17,8 +18,11 @@ public class Springies extends JGEngine
 	{
 		// set the window size
 		int height = 480;
-		double aspect = 16.0/9.0;
-		initEngine( (int)(height*aspect), height );
+		double aspect = 16.0/9.0; //@Tyler - aspect-ratio for screen
+		
+		/* @Tyler - calls jGEnine initEgine() which then calls init(), 
+		 * which calls initCanvas() and initGame() below */ 
+		initEngine( (int)(height*aspect), height ); 
 	}
 	
 	@Override
@@ -41,40 +45,23 @@ public class Springies extends JGEngine
 	{
 		setFrameRate( 60, 2 );
 		
+		
+		// @Tyler REALLY IMPORTANT
 		// init the world
 		// One thing to keep straight: The world coordinates have y pointing down
 		// the game coordinates have y pointing up
 		// so gravity is along the positive y axis in world coords to point down in game coords
 		// remember to set all directions (eg forces, velocities) in world coords
 		WorldManager.initWorld( this );
+		
+		// @Tyler - no x gravity, a little y  gravity - try messing around with the values to see what happens
 		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
 		// add a bouncy ball
 		// NOTE: you could make this into a separate class, but I'm lazy
-		PhysicalObject ball = new PhysicalObjectCircle( "ball", 1, JGColor.blue, 10, 5 )
-		{
-			@Override
-			public void hit( JGObject other )
-			{
-				// we hit something! bounce off it!
-				Vec2 velocity = myBody.getLinearVelocity();
-				
-				// is it a tall wall?
-				final double DAMPING_FACTOR = 0.8;
-				boolean isSide = other.getBBox().height > other.getBBox().width;
-				if( isSide )
-				{
-					velocity.x *= -DAMPING_FACTOR;
-				}
-				else
-				{
-					velocity.y *= -DAMPING_FACTOR;
-				}
-				
-				// apply the change
-				myBody.setLinearVelocity( velocity );
-			}
-		};
+		// @Tyler - I recreated a PhysicalObjectBall class as he said
+		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
+		
 		ball.setPos( displayWidth()/2, displayHeight()/2 );
 		ball.setForce( 8000, -10000 );
 		
