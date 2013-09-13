@@ -68,6 +68,13 @@ public class Springies extends JGEngine
 		new Spring("spring1", 1, mass1, mass2 ); 
 
 		//ball.setForce( 8000, -10000 );
+//		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
+//		ball.setPos( displayWidth()/2, displayHeight()/2 );
+//		ball.setForce( 8000, -10000 );
+		
+		// @Kevin - creates objects (eventually)
+//		Parser parser = new Parser("xml\\daintywalker.xml");
+//		parser.parse();
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass

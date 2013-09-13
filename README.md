@@ -3,13 +3,17 @@ springies
 Tyler Nisonoff, Kevin Jian
 
 Started 9/10
-	end, hours
+2 hours planning.
+
+end, hours
 
 Respository: https://github.com/duke-compsci308-fall2013/springies_team02.git
 
 for team projects, each person's role in developing the project
 
 any books, papers, online, or human resources that you used in developing the project
+http://www.box2d.org/manual.html#_Toc258082967
+http://www.cs4fn.org/alife/images/sodamathspaperfull.pdf
 
 files used to start the project (i.e., the class containing main) and test the project (the class containing TestSuite)
 
