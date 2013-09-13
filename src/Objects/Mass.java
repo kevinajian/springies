@@ -1,4 +1,4 @@
-package Objects;
+package objects;
 
 import jboxGlue.PhysicalObjectCircle;
 
@@ -47,6 +47,7 @@ public class Mass extends PhysicalObjectCircle{
 		{
 			velocity.y *= -DAMPING_FACTOR;
 		}
+		
 		
 		// apply the change
 		myBody.setLinearVelocity( velocity );

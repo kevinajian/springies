@@ -4,13 +4,15 @@ import jgame.JGColor;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import objects.Mass;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
-import Objects.Mass;
 public class Parser {
 	
 	private String myPath;
@@ -93,5 +95,36 @@ public class Parser {
 			
 			// create muscles Muscle muscle = new Muscle();
 		}
+	}
+	
+	public void setGravity(NodeList gravity){
+		int direction = Integer.parseInt(gravity.item(0).getAttributes().getNamedItem("direction").getNodeValue());
+		int magnitude = Integer.parseInt(gravity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	}
+	
+	public void setViscosity(NodeList viscosity){
+		double magnitude = Double.parseDouble(viscosity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	}
+	
+	public void setCenterMass(NodeList centerMass){
+		int magnitude = Integer.parseInt(centerMass.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+		double exponent = Double.parseDouble(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
+	}
+	
+	public void setWalls(NodeList walls){
+		for(int i=0; i<walls.getLength(); i++){
+			int magnitude = Integer.parseInt(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
+			double exponent = Double.parseDouble(walls.item(i).getAttributes().getNamedItem("exponent").getNodeValue());
+			
+			// create wall objects
+//			PhysicalObject wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
+		}
+	}
+	
+	private boolean hasAttribute(NamedNodeMap attributes, String attribute){
+		for (int i=0; i<attributes.getLength(); i++){
+			if (attributes.item(i).getNodeName().equals(attribute)) return true;
+		}
+		return false;
 	}
 }
