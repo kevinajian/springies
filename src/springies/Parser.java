@@ -1,7 +1,6 @@
 package springies;
 import jboxGlue.*;
 import jgame.JGColor;
-
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +26,6 @@ public class Parser {
 			Document doc = dBuilder.parse(data);
 			doc.getDocumentElement().normalize();
 			
-			System.out.println("test");
 			createMasses(doc.getElementsByTagName("mass"));
 			createFixedMasses(doc.getElementsByTagName("fixed"));
 			createSprings(doc.getElementsByTagName("spring"));
@@ -42,11 +40,11 @@ public class Parser {
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
 			Node currID = currMassAttr.getNamedItem("id");
-			Node currMass = currMassAttr.getNamedItem("mass");
+			Node currMass = currMassAttr.getNamedItem("mass"); // make default 0
 			Node currX = currMassAttr.getNamedItem("x");
 			Node currY = currMassAttr.getNamedItem("y");
 			
-			Mass mass = new Mass(currID.getNodeValue(),1,JGColor.blue,10,5);//Double.parseDouble(currMass.getNodeValue()));
+			Mass mass = new Mass(currID.getNodeValue(),1,JGColor.blue,10,5);
 			mass.setPos(Double.parseDouble(currX.getNodeValue()),Double.parseDouble(currY.getNodeValue()));
 		}
 	}
@@ -57,13 +55,13 @@ public class Parser {
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
 			Node currID = currMassAttr.getNamedItem("id");
-			Node currMass = currMassAttr.getNamedItem("mass");
+			Node currMass = currMassAttr.getNamedItem("mass"); // make default 0
 			Node currX = currMassAttr.getNamedItem("x");
 			Node currY = currMassAttr.getNamedItem("y");
-			Node currvX = currMassAttr.getNamedItem("vx");
-			Node currvY = currMassAttr.getNamedItem("vy");
+			Node currvX = currMassAttr.getNamedItem("vx"); // default 0
+			Node currvY = currMassAttr.getNamedItem("vy"); // default 0
 			
-			Mass mass = new Mass(currID.getNodeValue(),1,JGColor.blue,10,5,Float.parseFloat(currvX.getNodeValue()),Float.parseFloat(currY.getNodeValue()));//Double.parseDouble(currMass.getNodeValue()));
+			Mass mass = new Mass(currID.getNodeValue(),1,JGColor.blue,10,5,Float.parseFloat(currvX.getNodeValue()),Float.parseFloat(currY.getNodeValue()));
 			mass.setPos(Double.parseDouble(currX.getNodeValue()),Double.parseDouble(currY.getNodeValue()));
 		}
 	}
@@ -75,8 +73,10 @@ public class Parser {
 			NamedNodeMap springAttr = currSpring.getAttributes();
 			Node massA = springAttr.getNamedItem("a");
 			Node massB = springAttr.getNamedItem("b");
-			Node length = springAttr.getNamedItem("restLength");
-			Node k = springAttr.getNamedItem("constant");
+			Node length = springAttr.getNamedItem("restLength"); // default distance b/n a and b
+			Node k = springAttr.getNamedItem("constant"); // default k = 1
+			
+			// create springs Spring spring = new Spring();
 		}
 	}
 	
@@ -86,9 +86,11 @@ public class Parser {
 			NamedNodeMap springAttr = currMuscle.getAttributes();
 			Node massA = springAttr.getNamedItem("a");
 			Node massB = springAttr.getNamedItem("b");
-			Node length = springAttr.getNamedItem("restLength");
-			Node k = springAttr.getNamedItem("constant");
+			Node length = springAttr.getNamedItem("restLength"); // default distance b/n a and b
+			Node k = springAttr.getNamedItem("constant"); // default k = 1
 			Node amplitude = springAttr.getNamedItem("amplitude");
+			
+			// create muscles Muscle muscle = new Muscle();
 		}
 	}
 }
