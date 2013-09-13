@@ -73,8 +73,8 @@ public class Springies extends JGEngine
 //		ball.setForce( 8000, -10000 );
 		
 		// @Kevin - creates objects (eventually)
-//		Parser parser = new Parser("xml\\daintywalker.xml");
-//		parser.parse();
+		Parser parser = new Parser("xml\\ball.xml");
+		parser.parse();
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
