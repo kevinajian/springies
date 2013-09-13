@@ -60,10 +60,11 @@ public class Springies extends JGEngine
 		// add a bouncy ball
 		// NOTE: you could make this into a separate class, but I'm lazy
 		// @Tyler - I recreated a PhysicalObjectBall class as he said
-		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
-		
-		ball.setPos( displayWidth()/2, displayHeight()/2 );
-		ball.setForce( 8000, -10000 );
+//		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
+		Parser parser = new Parser("xml\\daintywalker.xml");
+		parser.parse();
+//		ball.setPos( displayWidth()/2, displayHeight()/2 );
+//		ball.setForce( 8000, -10000 );
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
