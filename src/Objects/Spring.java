@@ -11,15 +11,14 @@ public class Spring extends PhysicalSpring {
 	public static final JGColor COLOR = JGColor.black;
 	
 	public Spring( String name, int collisionId, Mass body1, Mass body2) {
-		super(name, collisionId, COLOR, body1, body2);
-		// TODO Auto-generated constructor stub
+		super(name, 3, COLOR, body1, body2, (float)20.0, (float)1.0);
 	}
 
 	@Override
 	protected void paintJoint() {
 		myEngine.setColor( myColor );
-		Vec2 position1 = myJoint.getBody1().getPosition();
-		Vec2 position2 = myJoint.getBody2().getPosition();
+		Vec2 position1 = myBody1.getBody().getPosition();
+		Vec2 position2 = myBody2.getBody().getPosition();
 
 		myEngine.drawLine(position1.x, position1.y, position2.x, position2.y);
 	}

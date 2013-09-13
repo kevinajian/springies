@@ -136,6 +136,15 @@ public abstract class PhysicalObject extends JGObject
 		}
 	}
 	
+	public float distance(PhysicalObject obj){
+		float dx = ((myBody.getPosition().x)-(obj.getBody().getPosition().x));
+		float dy = (myBody.getPosition().y)-(obj.getBody().getPosition().y);
+		float dxSquared = dx*dx;
+		float dySquared = dy*dy;
+		return (float)Math.sqrt(dxSquared+dySquared);
+
+	}
+	
 	@Override
 	public void paint( )
 	{

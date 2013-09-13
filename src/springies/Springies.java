@@ -58,15 +58,15 @@ public class Springies extends JGEngine
 		WorldManager.initWorld( this );
 		
 		// @Tyler - no x gravity, a little y  gravity - try messing around with the values to see what happens
-		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.01f ) );
+		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
 		// add a bouncy ball
 		// NOTE: you could make this into a separate class, but I'm lazy
 		// @Tyler - I recreated a PhysicalObjectBall class as he said
 		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2); 
-		Mass mass2 = new Mass("mass2", 1,displayWidth()/3, displayHeight()/3); 
+		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 20, displayHeight()/2); 
 		new Spring("spring1", 1, mass1, mass2 ); 
-
+		
 		//ball.setForce( 8000, -10000 );
 //		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
 //		ball.setPos( displayWidth()/2, displayHeight()/2 );
