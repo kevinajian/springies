@@ -8,8 +8,11 @@ import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.JGObject;
 import jgame.platform.JGEngine;
+import Objects.Mass;
+import Objects.Spring;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
@@ -55,15 +58,16 @@ public class Springies extends JGEngine
 		WorldManager.initWorld( this );
 		
 		// @Tyler - no x gravity, a little y  gravity - try messing around with the values to see what happens
-		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
+		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.01f ) );
 		
 		// add a bouncy ball
 		// NOTE: you could make this into a separate class, but I'm lazy
 		// @Tyler - I recreated a PhysicalObjectBall class as he said
-		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
-		
-		ball.setPos( displayWidth()/2, displayHeight()/2 );
-		ball.setForce( 8000, -10000 );
+		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2); 
+		Mass mass2 = new Mass("mass2", 1,displayWidth()/3, displayHeight()/3); 
+		new Spring("spring1", 1, mass1, mass2 ); 
+
+		//ball.setForce( 8000, -10000 );
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
