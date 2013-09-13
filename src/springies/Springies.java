@@ -126,6 +126,7 @@ public class Springies extends JGEngine
 		// the objects paint themselves
 	}
 	
+	// creates Document from xml file
 	public Document parse(String path){
 		try{			
 			File data = new File(path);
