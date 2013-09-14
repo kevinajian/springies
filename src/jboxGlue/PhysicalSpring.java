@@ -87,17 +87,16 @@ public abstract class PhysicalSpring extends JGObject {
 //		Vec2 dv = vel1.sub(vel2);
 		float distance = myBody1.distance(myBody2);
 		Vec2 directionToApply = myBody2.getBody().getPosition().sub(myBody1.getBody().getPosition());
-		System.out.println("distance : "+distance);
-		System.out.println("direction: "+directionToApply.toString());
+//		System.out.println("distance : "+distance);
+//		System.out.println("direction: "+directionToApply.toString());
 		directionToApply.normalize();
-		System.out.println("normalize:"+directionToApply.toString());
+//		System.out.println("normalize:"+directionToApply.toString());
 
 		float force = (myK)*(myRestLength-distance);
-		System.out.println("force: "+force);
 
-		myBody1.getBody().applyForce(directionToApply.mul(-1*force), myBody1.getBody().getPosition());
-		myBody2.getBody().applyForce(directionToApply.mul(force), myBody2.getBody().getPosition());
-
+		myBody1.applyForce(directionToApply.mul(-1*force));
+		myBody2.applyForce(directionToApply.mul(force));
+		
 	}
 	
 	//will return a normalized vector with from the body2's position

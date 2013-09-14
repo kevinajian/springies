@@ -22,7 +22,6 @@ public abstract class PhysicalObject extends JGObject
 		super( name, true, 0, 0, collisionId, null );
 		myColor = color;
 		myHasImage = false;
-		
 		init();
 	}
 	
@@ -144,6 +143,14 @@ public abstract class PhysicalObject extends JGObject
 
 	}
 	
+	public void applyForce(Vec2 force){
+		myBody.applyForce(force, myBody.getPosition());
+	}
+	
+	public Vec2 getPosition(){
+		return myBody.getPosition();
+	}
+	
 	@Override
 	public void paint( )
 	{
@@ -153,6 +160,6 @@ public abstract class PhysicalObject extends JGObject
 			paintShape();
 		}
 	}
-	
+
 	protected abstract void paintShape( );
 }

@@ -2,8 +2,16 @@ package springies;
 
 import java.io.File;
 
+import objects.FixedMass;
 import objects.Mass;
 import objects.Spring;
+import objects.Wall.BottomWall;
+import objects.Wall.HorizontalWall;
+import objects.Wall.LeftWall;
+import objects.Wall.RightWall;
+import objects.Wall.TopWall;
+import objects.Wall.VerticalWall;
+import objects.Wall.Wall;
 
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
@@ -57,12 +65,14 @@ public class Springies extends JGEngine
 		
 		WorldManager.initWorld( this );
 		
-		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
+		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
-		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2); 
-		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 20, displayHeight()/2); 
+		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2 -100); 
+		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 20, displayHeight()/2 -100); 
+		Mass mass3 = new FixedMass("mass2", 1,displayWidth()/5, displayHeight()/2); 
 		new Spring("spring1", 1, mass1, mass2 ); 
 		
+
 		//ball.setForce( 8000, -10000 );
 //		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
 //		ball.setPos( displayWidth()/2, displayHeight()/2 );
@@ -86,14 +96,18 @@ public class Springies extends JGEngine
 		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
-		PhysicalObject wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
-		wall.setPos( displayWidth()/2, WALL_MARGIN );
-		wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
-		wall.setPos( displayWidth()/2, displayHeight() - WALL_MARGIN );
-		wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
-		wall.setPos( WALL_MARGIN, displayHeight()/2 );
-		wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
-		wall.setPos( displayWidth() - WALL_MARGIN, displayHeight()/2 );
+		Wall ceiling = new TopWall("wallC", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+			 ceiling.setPos(displayWidth()/2, WALL_MARGIN);
+			 //ceiling.setRepulsionForce((float)20, (float)2.0);
+		Wall floor = new BottomWall( "wallF", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
+			 floor.setPos( displayWidth()/2, displayHeight() - WALL_MARGIN);
+			 //floor.setRepulsionForce((float)20000, (float)2.0);
+		Wall left = new LeftWall( "wallL", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
+			 left.setPos( WALL_MARGIN, displayHeight()/2 );
+			 //left.setRepulsionForce((float)20000, (float)2.0);
+		Wall right = new RightWall( "wallR", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
+			 right.setPos( displayWidth() - WALL_MARGIN, displayHeight()/2 );
+			 //right.setRepulsionForce((float)20000, (float)2.0);
 	}
 
 	@Override
@@ -101,6 +115,7 @@ public class Springies extends JGEngine
 	{
 		// update game objects
 		WorldManager.getWorld().step( 1f, 1 );
+		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
 		
 		checkCollision( 1 + 2, 1 );

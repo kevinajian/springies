@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.World;
 
 public class WorldManager
 {
-	public static World ourWorld;
+	public static CustomWorld ourWorld;
 	
 	static
 	{
@@ -16,7 +16,7 @@ public class WorldManager
 	}
 	
 	
-	public static World getWorld( )
+	public static CustomWorld getWorld( )
 	{
 		// make sure we have a world, just in case...
 		if( ourWorld == null )

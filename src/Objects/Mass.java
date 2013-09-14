@@ -1,6 +1,7 @@
 package objects;
 
 import jboxGlue.PhysicalObjectCircle;
+import jboxGlue.WorldManager;
 
 import org.jbox2d.common.Vec2;
 
@@ -25,6 +26,7 @@ public class Mass extends PhysicalObjectCircle{
 	
 	public Mass(String id, int collisionId, double x, double y, double mass, float xVel, float yVel){
 		super(id, collisionId, COLOR, RADIUS, mass);
+		WorldManager.getWorld().addMass(this);
 		setPos(x, y);
 		myBody.setLinearVelocity(new Vec2(xVel, yVel));
 	}
@@ -52,5 +54,6 @@ public class Mass extends PhysicalObjectCircle{
 		// apply the change
 		myBody.setLinearVelocity( velocity );
 	}
+	
 	
 }
