@@ -1,4 +1,4 @@
-package jboxGlue;
+ package jboxGlue;
 
 import java.util.HashMap;
 
@@ -46,6 +46,31 @@ public class CustomWorld extends World {
 	
 	public void addSpring(Spring spring){
 		mySprings.put(spring.getName(), spring);
+	}
+	
+	public Vec2 getCenterOfMass(){
+		if(getMasses().length == 0) 
+			return new Vec2();
+		
+		float weightedX = 0;
+		float weightedY = 0;
+		for(Mass mass : getMasses()){
+			weightedX += mass.getX()*mass.getMass();
+			weightedY += mass.getY()*mass.getMass();
+		}
+		weightedX /= getTotalMassOfSystem();
+		weightedY /= getTotalMassOfSystem();
+
+		Vec2 centerPosition = new Vec2(weightedX, weightedY);
+		return centerPosition;
+	}
+	
+	private float getTotalMassOfSystem(){
+		float totalMass = 0;
+		for(Mass mass : getMasses()){
+			totalMass += mass.getMass();
+		}
+		return totalMass;
 	}
 	
 	public void applyEnvironmentalForces(){

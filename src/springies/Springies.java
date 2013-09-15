@@ -55,7 +55,7 @@ public class Springies extends JGEngine
 			displayWidth(), // width of one tile
 			displayHeight(), // height of one tile
 			null,// foreground colour -> use default colour white
-			null,// background colour -> use default colour black
+			JGColor.white,// background colour -> use default colour black
 			null // standard font -> use default font
 		);
 	}
@@ -81,13 +81,13 @@ public class Springies extends JGEngine
 //		ball.setForce( 8000, -10000 );
 		
 		// parses data
-		Parser parser = new Parser("xml/daintywalker.xml"); // enter the xml file here
+		Parser parser = new Parser("xml/example.xml",(this)); // enter the xml file here
 		Document doc  = parser.parse();
 //		create objects from data
-//		parser.createMasses(doc.getElementsByTagName("mass"));
-//		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
-//		parser.createSprings(doc.getElementsByTagName("spring"));
-//		parser.createMuscles(doc.getElementsByTagName("muscle"));
+		parser.createMasses(doc.getElementsByTagName("mass"));
+		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
+		parser.createSprings(doc.getElementsByTagName("spring"));
+		parser.createMuscles(doc.getElementsByTagName("muscle"));
 
 //		parser.setGravity(doc.getElementsByTagName("gravity"));
 //		parser.setViscosity(doc.getElementsByTagName("viscosity"));
@@ -119,6 +119,9 @@ public class Springies extends JGEngine
 	{
 		frame++;
 		// update game objects
+		Vec2 centerOfMass = WorldManager.getWorld().getCenterOfMass();
+		//System.out.println("center: "+centerOfMass);
+		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();

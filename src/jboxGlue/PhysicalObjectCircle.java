@@ -45,6 +45,10 @@ public class PhysicalObjectCircle extends PhysicalObject
 		setBBox( -(int)radius, -(int)radius, 2*(int)radius, 2*(int)radius );
 	}
 	
+	public float getMass(){
+		return myBody.m_mass;
+	}
+	
 	@Override
 	protected void createBody( ShapeDef shapeDefinition )
 	{
