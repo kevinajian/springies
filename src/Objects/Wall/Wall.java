@@ -1,6 +1,6 @@
-package Objects.Wall;
+package objects.Wall;
 
-import Objects.Mass;
+import objects.Mass;
 
 import org.jbox2d.common.Vec2;
 
@@ -23,7 +23,7 @@ public abstract class Wall extends PhysicalObjectRect {
 	public void initWall( ){
 		setUnitVector();
 		myUnitDirectionToRepel.normalize();
-		myForce = new WallRepulsion((float)0.0, myUnitDirectionToRepel, (float)0.0);
+		myForce = new WallRepulsion((float)0.0, myUnitDirectionToRepel, (float)0.0, this);
 	}
 		
 	public void setRepulsionForce(WallRepulsion force){
@@ -31,7 +31,7 @@ public abstract class Wall extends PhysicalObjectRect {
 	}
 	
 	public void setRepulsionForce(float magnitude, float exponent){
-		WallRepulsion rep =  new WallRepulsion(magnitude, myUnitDirectionToRepel, exponent);
+		WallRepulsion rep =  new WallRepulsion(magnitude, myUnitDirectionToRepel, exponent, this);
 		myForce = rep;
 	}
 	
@@ -43,9 +43,7 @@ public abstract class Wall extends PhysicalObjectRect {
 		
 		Mass[] masses = WorldManager.getWorld().getMasses();
 		for(Mass mass : masses){
-			float distance = calculateDistance(mass);
-			Vec2 forceToApply = myForce.getForceToApply(distance);
-			mass.applyForce(forceToApply);
+			myForce.applyForceToObject(mass);
 		}
 	}
 	

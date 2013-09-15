@@ -8,7 +8,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import Objects.*;
+import objects.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

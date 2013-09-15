@@ -2,17 +2,17 @@ package springies;
 
 import java.io.File;
 
-import Objects.FixedMass;
-import Objects.Mass;
-import Objects.Muscle;
-import Objects.Spring;
-import Objects.Wall.BottomWall;
-import Objects.Wall.HorizontalWall;
-import Objects.Wall.LeftWall;
-import Objects.Wall.RightWall;
-import Objects.Wall.TopWall;
-import Objects.Wall.VerticalWall;
-import Objects.Wall.Wall;
+import objects.FixedMass;
+import objects.Mass;
+import objects.Muscle;
+import objects.Spring;
+import objects.Wall.BottomWall;
+import objects.Wall.HorizontalWall;
+import objects.Wall.LeftWall;
+import objects.Wall.RightWall;
+import objects.Wall.TopWall;
+import objects.Wall.VerticalWall;
+import objects.Wall.Wall;
 
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
@@ -116,10 +116,6 @@ public class Springies extends JGEngine
 	public void doFrame( )
 	{
 		frame++;
-		// update game objects
-		Vec2 centerOfMass = WorldManager.getWorld().getCenterOfMass();
-		//System.out.println("center: "+centerOfMass);
-		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
