@@ -20,7 +20,6 @@ public class Parser {
 	private String myPath;
 	private Springies myEngine;
 
-	private HashMap<String, FixedMass> myFixedMasses = new HashMap<String, FixedMass>();
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
 	
 	public Parser(String path, Springies engine){
@@ -54,7 +53,7 @@ public class Parser {
 		    y = Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 		    
 		    FixedMass mass = new FixedMass(id,cID,x,y);
-		    myFixedMasses.put(id, mass);
+		    myMasses.put(id, mass);
 		  }
 		}
 		  
@@ -82,8 +81,6 @@ public class Parser {
 	    for (int i=0; i<springs.getLength(); i++){
 	    	Node currSpring = springs.item(i);
 	    	NamedNodeMap springAttr = currSpring.getAttributes();
-	    	//massA = (Mass) myEngine.getObject(springAttr.getNamedItem("a").getNodeValue());
-	    	//massB = (Mass) myEngine.getObject(springAttr.getNamedItem("b").getNodeValue());
 	    	massA = myMasses.get(springAttr.getNamedItem("a").getNodeValue());
 	    	massB = myMasses.get(springAttr.getNamedItem("b").getNodeValue());
 	    	if (hasAttribute(springAttr,"restLength")) length = Float.parseFloat(springAttr.getNamedItem("restlength").getNodeValue());
@@ -101,8 +98,6 @@ public class Parser {
 	    for (int i=0; i<muscles.getLength(); i++){
 	    	Node currMuscle = muscles.item(i);
 	    	NamedNodeMap muscleAttr = currMuscle.getAttributes();
-//	    	massA = (Mass) myEngine.getObject(muscleAttr.getNamedItem("a").getNodeValue());
-//	    	massB = (Mass) myEngine.getObject(muscleAttr.getNamedItem("b").getNodeValue());
 	    	massA = myMasses.get(muscleAttr.getNamedItem("a").getNodeValue());
 	    	massB = myMasses.get(muscleAttr.getNamedItem("b").getNodeValue());
 	    	if (hasAttribute(muscleAttr,"restLength")) length = Float.parseFloat(muscleAttr.getNamedItem("restlength").getNodeValue());
@@ -111,7 +106,6 @@ public class Parser {
 	    	amplitude = Float.parseFloat(muscleAttr.getNamedItem("amplitude").getNodeValue());
 	      
 	    	Muscle muscle = new Muscle(id, cID, massA, massB, length, k, amplitude, frequency);
-	    	// create muscles Muscle muscle = new Muscle();
 	    }
 	}
 	  
@@ -145,9 +139,5 @@ public class Parser {
 	    }
 	    return false;
 	}
-	
-	// calculate distance between two masses
-	private double getRestLength(Mass a, Mass b){
-	    return 0;
-	}	
+		
 }

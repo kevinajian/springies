@@ -69,30 +69,28 @@ public class Springies extends JGEngine
 		
 		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
-		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2 -100); 
-		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 25, displayHeight()/2 -100); 
-		Mass mass3 = new FixedMass("mass2", 1,displayWidth()/5, displayHeight()/2); 
-		new Spring("spring1", 1, mass1, mass2 ); 
-		
-
-		//ball.setForce( 8000, -10000 );
-//		PhysicalObject ball = new PhysicalObjectBouncyBall( "ball", 1, JGColor.blue, 10, 5 );
-//		ball.setPos( displayWidth()/2, displayHeight()/2 );
-//		ball.setForce( 8000, -10000 );
-		
+//		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2 -100); 
+//		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 25, displayHeight()/2 -100); 
+//		Mass mass3 = new FixedMass("mass2", 1,displayWidth()/5, displayHeight()/2); 
+//		new Spring("spring1", 1, mass1, mass2 ); 
+				
 		// parses data
-		Parser parser = new Parser("xml/example.xml",(this)); // enter the xml file here
+		Parser parser = new Parser("xml/jello.xml",(this)); // enter the xml file here
 		Document doc  = parser.parse();
-//		create objects from data
+		// create objects from data
 		parser.createMasses(doc.getElementsByTagName("mass"));
 		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
 		parser.createSprings(doc.getElementsByTagName("spring"));
 		parser.createMuscles(doc.getElementsByTagName("muscle"));
-
-//		parser.setGravity(doc.getElementsByTagName("gravity"));
-//		parser.setViscosity(doc.getElementsByTagName("viscosity"));
-//		parser.setCenterMass(doc.getElementsByTagName("centermass"));
-//		parser.setWalls(doc.getElementsByTagName("wall"));
+		
+		// set environment and world forces
+		File environment = new File("xml/environment.xml");
+		if (environment.exists()){
+			parser.setGravity(doc.getElementsByTagName("gravity"));
+			parser.setViscosity(doc.getElementsByTagName("viscosity"));
+			parser.setCenterMass(doc.getElementsByTagName("centermass"));
+			parser.setWalls(doc.getElementsByTagName("wall"));	
+		}
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
