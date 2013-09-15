@@ -2,17 +2,17 @@ package springies;
 
 import java.io.File;
 
-import objects.FixedMass;
-import objects.Mass;
-import objects.Muscle;
-import objects.Spring;
-import objects.Wall.BottomWall;
-import objects.Wall.HorizontalWall;
-import objects.Wall.LeftWall;
-import objects.Wall.RightWall;
-import objects.Wall.TopWall;
-import objects.Wall.VerticalWall;
-import objects.Wall.Wall;
+import Objects.FixedMass;
+import Objects.Mass;
+import Objects.Muscle;
+import Objects.Spring;
+import Objects.Wall.BottomWall;
+import Objects.Wall.HorizontalWall;
+import Objects.Wall.LeftWall;
+import Objects.Wall.RightWall;
+import Objects.Wall.TopWall;
+import Objects.Wall.VerticalWall;
+import Objects.Wall.Wall;
 
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
@@ -81,16 +81,18 @@ public class Springies extends JGEngine
 //		ball.setForce( 8000, -10000 );
 		
 		// parses data
-//		Document doc = parse("xml/daintywalker.xml"); // enter xml file here
+		Parser parser = new Parser("xml/daintywalker.xml"); // enter the xml file here
+		Document doc  = parser.parse();
 //		create objects from data
-//		createMasses(doc.getElementsByTagName("mass"));
-//		createFixedMasses(doc.getElementsByTagName("fixed"));
-//		createSprings(doc.getElementsByTagName("spring"));
-//		createMuscles(doc.getElementsByTagName("muscle"));
-		//setGravity(doc.getElementsByTagName("gravity"));
-		//setViscosity(doc.getElementsByTagName("viscosity"));
-		//setCenterMass(doc.getElementsByTagName("centermass"));
-		//setWalls(doc.getElementsByTagName("wall"));
+//		parser.createMasses(doc.getElementsByTagName("mass"));
+//		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
+//		parser.createSprings(doc.getElementsByTagName("spring"));
+//		parser.createMuscles(doc.getElementsByTagName("muscle"));
+
+//		parser.setGravity(doc.getElementsByTagName("gravity"));
+//		parser.setViscosity(doc.getElementsByTagName("viscosity"));
+//		parser.setCenterMass(doc.getElementsByTagName("centermass"));
+//		parser.setWalls(doc.getElementsByTagName("wall"));
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
@@ -134,5 +136,4 @@ public class Springies extends JGEngine
 		// nothing to do
 		// the objects paint themselves
 	}
-	
 }

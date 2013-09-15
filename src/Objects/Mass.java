@@ -1,4 +1,4 @@
-package objects;
+package Objects;
 
 import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.WorldManager;

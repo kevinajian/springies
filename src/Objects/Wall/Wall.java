@@ -1,6 +1,6 @@
-package objects.Wall;
+package Objects.Wall;
 
-import objects.Mass;
+import Objects.Mass;
 
 import org.jbox2d.common.Vec2;
 

@@ -12,8 +12,8 @@ import externalForces.Force;
 import externalForces.FixedForce;
 import externalForces.Gravity;
 
-import objects.Mass;
-import objects.Spring;
+import Objects.Mass;
+import Objects.Spring;
 
 public class CustomWorld extends World {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
