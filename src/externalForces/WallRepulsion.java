@@ -1,6 +1,6 @@
 package externalForces;
 
-import objects.Wall.Wall;
+import objects.wall.*;
 
 import org.jbox2d.common.Vec2;
 

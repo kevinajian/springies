@@ -2,17 +2,8 @@ package springies;
 
 import java.io.File;
 
-import objects.FixedMass;
-import objects.Mass;
-import objects.Muscle;
-import objects.Spring;
-import objects.Wall.BottomWall;
-import objects.Wall.HorizontalWall;
-import objects.Wall.LeftWall;
-import objects.Wall.RightWall;
-import objects.Wall.TopWall;
-import objects.Wall.VerticalWall;
-import objects.Wall.Wall;
+import objects.*;
+import objects.wall.*;
 
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
@@ -41,7 +32,7 @@ public class Springies extends JGEngine
 	public Springies( )
 	{
 		// set the window size
-		int height = 480;
+		int height = 800;
 		double aspect = 16.0/9.0; //@Tyler - aspect-ratio for screen
 		initEngine( (int)(height*aspect), height ); 
 	}
@@ -75,43 +66,36 @@ public class Springies extends JGEngine
 //		new Spring("spring1", 1, mass1, mass2 ); 
 				
 		// parses data
-		Parser parser = new Parser("xml/jello.xml",(this)); // enter the xml file here
-		Document doc  = parser.parse();
+		String xmlFile = "ball"; // set xml file here
+		File data = new File("xml/"+xmlFile+".xml");
+		Parser parser = new Parser();
+		Document xmlData  = parser.parse(data);
 		// create objects from data
-		parser.createMasses(doc.getElementsByTagName("mass"));
-		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
-		parser.createSprings(doc.getElementsByTagName("spring"));
-		parser.createMuscles(doc.getElementsByTagName("muscle"));
+		parser.createMasses(xmlData.getElementsByTagName("mass"));
+		parser.createFixedMasses(xmlData.getElementsByTagName("fixed"));
+		parser.createSprings(xmlData.getElementsByTagName("spring"));
+		parser.createMuscles(xmlData.getElementsByTagName("muscle"));
 		
 		// set environment and world forces
 		File environment = new File("xml/environment.xml");
 		if (environment.exists()){
-			parser.setGravity(doc.getElementsByTagName("gravity"));
-			parser.setViscosity(doc.getElementsByTagName("viscosity"));
-			parser.setCenterMass(doc.getElementsByTagName("centermass"));
-			parser.setWalls(doc.getElementsByTagName("wall"));	
+			Parser environmentParser = new Parser();
+			Document xmlEnvironment = environmentParser.parse(environment);
+			
+			environmentParser.setGravity(xmlEnvironment.getElementsByTagName("gravity"));
+			environmentParser.setViscosity(xmlEnvironment.getElementsByTagName("viscosity"));
+			environmentParser.setCenterMass(xmlEnvironment.getElementsByTagName("centermass"));
+			
+			// add walls to bounce off of
+			// NOTE: immovable objects must have no mass}
+			final double WALL_MARGIN = 10;
+			final double WALL_THICKNESS = 10;
+			final double WALL_WIDTH = displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
+			final double WALL_HEIGHT = displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
+			environmentParser.setWalls(xmlEnvironment.getElementsByTagName("wall"),WALL_WIDTH,WALL_HEIGHT,WALL_THICKNESS,WALL_MARGIN,displayWidth(),displayHeight());
 		}
-		
-		// add walls to bounce off of
-		// NOTE: immovable objects must have no mass
-		final double WALL_MARGIN = 10;
-		final double WALL_THICKNESS = 10;
-		final double WALL_WIDTH = displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
-		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
-		Wall ceiling = new TopWall("wallC", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
-			 ceiling.setPos(displayWidth()/2, WALL_MARGIN);
-			 //ceiling.setRepulsionForce((float)20, (float)2.0);
-		Wall floor = new BottomWall( "wallF", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
-			 floor.setPos( displayWidth()/2, displayHeight() - WALL_MARGIN);
-			 //floor.setRepulsionForce((float)20000, (float)2.0);
-		Wall left = new LeftWall( "wallL", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
-			 left.setPos( WALL_MARGIN, displayHeight()/2 );
-			 //left.setRepulsionForce((float)20000, (float)2.0);
-		Wall right = new RightWall( "wallR", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT );
-			 right.setPos( displayWidth() - WALL_MARGIN, displayHeight()/2 );
-			 //right.setRepulsionForce((float)20000, (float)2.0);
 	}
-
+	
 	@Override
 	public void doFrame( )
 	{

@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import objects.*;
+import objects.wall.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,22 +18,16 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
 public class Parser {
-	private String myPath;
-	private Springies myEngine;
-
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
 	
-	public Parser(String path, Springies engine){
-		myPath = path;
-		myEngine = engine;
+	public Parser(){
 	}
 	
-	public Document parse(){
+	public Document parse(File file){
 		try{			
-			File data = new File(myPath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(data);
+			Document doc = dBuilder.parse(file);
 			doc.getDocumentElement().normalize();
 			
 			return doc;
@@ -58,7 +53,7 @@ public class Parser {
 		}
 		  
 	public void createMasses(NodeList masses){
-		String id; int cID = 1; double x, y, mass=0; float xVel=0, yVel=0; // defaults
+		String id; int cID = 1; double x, y, mass=1; float xVel=0, yVel=0; // defaults
 		for (int i=0; i<masses.getLength(); i++){
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
@@ -110,28 +105,48 @@ public class Parser {
 	}
 	  
 	public void setGravity(NodeList gravity){
-		int direction = Integer.parseInt(gravity.item(0).getAttributes().getNamedItem("direction").getNodeValue());
-	    int magnitude = Integer.parseInt(gravity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+		float direction = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem("direction").getNodeValue());
+	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	}
 	  
 	public void setViscosity(NodeList viscosity){
-	    double magnitude = Double.parseDouble(viscosity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	}
 	  
 	public void setCenterMass(NodeList centerMass){
-		int magnitude = Integer.parseInt(centerMass.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
-	    double exponent = Double.parseDouble(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
+		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
 	}
 	  
-	public void setWalls(NodeList walls){
+	public void setWalls(NodeList walls, double width, double height, double thickness,double margin,double displayWidth,double displayHeight){
 	    for(int i=0; i<walls.getLength(); i++){
-	    	int magnitude = Integer.parseInt(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
-	    	double exponent = Double.parseDouble(walls.item(i).getAttributes().getNamedItem("exponent").getNodeValue());
-	      
-	    	// create wall objects
-//		    	PhysicalObject wall = new PhysicalObjectRect( "wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS );
+	    	int id = Integer.parseInt(walls.item(i).getAttributes().getNamedItem("id").getNodeValue());
+	    	float magnitude = Float.parseFloat(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    	float exponent = Float.parseFloat(walls.item(i).getAttributes().getNamedItem("exponent").getNodeValue());
+	    	
+	    	if (id==1){
+	    		Wall ceiling = new TopWall("wallC", 2, JGColor.green, width, thickness);
+	    		ceiling.setPos(displayWidth/2, margin);
+	    		ceiling.setRepulsionForce(magnitude,exponent);
+	    	}
+	    	else if (id==2){
+	    		Wall floor = new BottomWall( "wallF", 2, JGColor.green, width, thickness);
+				floor.setPos(displayWidth/2, displayHeight - margin);
+				floor.setRepulsionForce(magnitude,exponent);
+	    	}
+	    	else if (id==3){
+	    		Wall left = new LeftWall("wallL", 2, JGColor.green, thickness, height);
+	    		left.setPos(margin, displayHeight/2);
+	    		left.setRepulsionForce(magnitude,exponent);
+	    	}
+	    	else if (id==4){
+	    		Wall right = new RightWall("wallR", 2, JGColor.green, thickness, height);
+	    		right.setPos(displayWidth-margin, displayHeight/2);
+	    		right.setRepulsionForce(magnitude,exponent);
+	    	}
 	    }
-	  }
+	}
+	
 	  
 	private boolean hasAttribute(NamedNodeMap attributes, String attribute){
 	    for (int i=0; i<attributes.getLength(); i++){
