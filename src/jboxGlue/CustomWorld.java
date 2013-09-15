@@ -51,8 +51,8 @@ public class CustomWorld extends World {
 	public void applyEnvironmentalForces(){
 		for(FixedForce force : FixedForces){
 			for(Mass mass : getMasses()){
-				//Vec2 forceToApply = force.getForceToApply();
-				//mass.applyForce(forceToApply);
+				Vec2 forceToApply = force.getForceToApply();
+				mass.applyForce(forceToApply);
 			}
 		}
 	}

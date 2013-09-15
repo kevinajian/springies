@@ -3,6 +3,8 @@ package jboxGlue;
 import jgame.JGColor;
 
 import org.jbox2d.collision.CircleDef;
+import org.jbox2d.collision.ShapeDef;
+import org.jbox2d.dynamics.BodyDef;
 
 public class PhysicalObjectCircle extends PhysicalObject
 {
@@ -41,6 +43,13 @@ public class PhysicalObjectCircle extends PhysicalObject
 		shape.density = (float)mass;
 		createBody( shape );
 		setBBox( -(int)radius, -(int)radius, 2*(int)radius, 2*(int)radius );
+	}
+	
+	@Override
+	protected void createBody( ShapeDef shapeDefinition )
+	{
+		shapeDefinition.filter.groupIndex = -2;
+		super.createBody(shapeDefinition);
 	}
 	
 	@Override

@@ -8,11 +8,19 @@ import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.JGObject;
 import jgame.JGColor;
-public class Spring extends PhysicalSpring {
+public class Spring extends Muscle {
 	public static final JGColor COLOR = JGColor.black;
 	
 	public Spring( String name, int collisionId, Mass body1, Mass body2) {
-		super(name, 3, COLOR, body1, body2, (float)20.0, (float)1.0);
+		this(name, 3, body1, body2, DEFAULT_RESTLENGTH);
+	}
+	
+	public Spring( String name, int collisionId, Mass body1, Mass body2, float restLength) {
+		this(name, 3, body1, body2, restLength, DEFAULT_SPRINGYNESS);
+	}
+	
+	public Spring( String name, int collisionId, Mass body1, Mass body2, float restLength, float springyness) {
+		super(name, 3, body1, body2, restLength, springyness, 0,1);
 	}
 
 }

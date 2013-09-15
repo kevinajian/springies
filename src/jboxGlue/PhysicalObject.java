@@ -9,9 +9,11 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
+import springies.Springies;
+
 public abstract class PhysicalObject extends JGObject
 {
-	protected JGEngineInterface myEngine;
+	protected Springies myEngine;
 	protected boolean myHasImage;
 	protected JGColor myColor;
 	protected Body myBody;
@@ -43,11 +45,12 @@ public abstract class PhysicalObject extends JGObject
 	private void init( )
 	{
 		// init defaults
-		myEngine = eng;
+		myEngine = (Springies)eng;
 	}
 	
 	protected void createBody( ShapeDef shapeDefinition )
 	{
+		BodyDef def = new BodyDef();
 		myBody = WorldManager.getWorld().createBody( new BodyDef() );
 		myBody.createShape( shapeDefinition );
 		myBody.setUserData( this ); // for following body back to JGObject

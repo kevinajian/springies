@@ -32,7 +32,6 @@ public abstract class Wall extends PhysicalObjectRect {
 	
 	public void setRepulsionForce(float magnitude, float exponent){
 		WallRepulsion rep =  new WallRepulsion(magnitude, myUnitDirectionToRepel, exponent);
-		System.out.println("rep: " +rep.toString());
 		myForce = rep;
 	}
 	
@@ -46,7 +45,6 @@ public abstract class Wall extends PhysicalObjectRect {
 		for(Mass mass : masses){
 			float distance = calculateDistance(mass);
 			Vec2 forceToApply = myForce.getForceToApply(distance);
-			System.out.println(this.getName()+"  "+forceToApply.toString());
 			mass.applyForce(forceToApply);
 		}
 	}

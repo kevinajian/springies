@@ -4,6 +4,7 @@ import java.io.File;
 
 import objects.FixedMass;
 import objects.Mass;
+import objects.Muscle;
 import objects.Spring;
 import objects.Wall.BottomWall;
 import objects.Wall.HorizontalWall;
@@ -36,6 +37,7 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
 {
+	private int frame = 0;
 	public Springies( )
 	{
 		// set the window size
@@ -68,7 +70,7 @@ public class Springies extends JGEngine
 		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
 		Mass mass1 = new Mass("mass1", 1,displayWidth()/2, displayHeight()/2 -100); 
-		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 20, displayHeight()/2 -100); 
+		Mass mass2 = new Mass("mass2", 1,displayWidth()/2 - 25, displayHeight()/2 -100); 
 		Mass mass3 = new FixedMass("mass2", 1,displayWidth()/5, displayHeight()/2); 
 		new Spring("spring1", 1, mass1, mass2 ); 
 		
@@ -113,12 +115,17 @@ public class Springies extends JGEngine
 	@Override
 	public void doFrame( )
 	{
+		frame++;
 		// update game objects
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
 		
 		checkCollision( 1 + 2, 1 );
+	}
+	
+	public int getFrame(){
+		return frame;
 	}
 	
 	@Override

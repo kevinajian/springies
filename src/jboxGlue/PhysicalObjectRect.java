@@ -3,6 +3,7 @@ package jboxGlue;
 import jgame.JGColor;
 
 import org.jbox2d.collision.PolygonDef;
+import org.jbox2d.collision.ShapeDef;
 
 public class PhysicalObjectRect extends PhysicalObject
 {
@@ -49,6 +50,13 @@ public class PhysicalObjectRect extends PhysicalObject
 		shape.setAsBox( (float)width, (float)height );
 		createBody( shape );
 		setBBox( -(int)width/2, -(int)height/2, (int)width, (int)height );
+	}
+	
+	@Override
+	protected void createBody( ShapeDef shapeDefinition )
+	{
+		shapeDefinition.filter.groupIndex = 2;
+		super.createBody(shapeDefinition);
 	}
 	
 	@Override
