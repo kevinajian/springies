@@ -55,7 +55,7 @@ public class Springies extends JGEngine
 			displayWidth(), // width of one tile
 			displayHeight(), // height of one tile
 			null,// foreground colour -> use default colour white
-			null,// background colour -> use default colour black
+			JGColor.white,// background colour -> use default colour black
 			null // standard font -> use default font
 		);
 	}
@@ -81,16 +81,18 @@ public class Springies extends JGEngine
 //		ball.setForce( 8000, -10000 );
 		
 		// parses data
-//		Document doc = parse("xml/daintywalker.xml"); // enter xml file here
+		Parser parser = new Parser("xml/example.xml",(this)); // enter the xml file here
+		Document doc  = parser.parse();
 //		create objects from data
-//		createMasses(doc.getElementsByTagName("mass"));
-//		createFixedMasses(doc.getElementsByTagName("fixed"));
-//		createSprings(doc.getElementsByTagName("spring"));
-//		createMuscles(doc.getElementsByTagName("muscle"));
-		//setGravity(doc.getElementsByTagName("gravity"));
-		//setViscosity(doc.getElementsByTagName("viscosity"));
-		//setCenterMass(doc.getElementsByTagName("centermass"));
-		//setWalls(doc.getElementsByTagName("wall"));
+		parser.createMasses(doc.getElementsByTagName("mass"));
+		parser.createFixedMasses(doc.getElementsByTagName("fixed"));
+		parser.createSprings(doc.getElementsByTagName("spring"));
+		parser.createMuscles(doc.getElementsByTagName("muscle"));
+
+//		parser.setGravity(doc.getElementsByTagName("gravity"));
+//		parser.setViscosity(doc.getElementsByTagName("viscosity"));
+//		parser.setCenterMass(doc.getElementsByTagName("centermass"));
+//		parser.setWalls(doc.getElementsByTagName("wall"));
 		
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
@@ -116,7 +118,6 @@ public class Springies extends JGEngine
 	public void doFrame( )
 	{
 		frame++;
-		// update game objects
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -134,5 +135,4 @@ public class Springies extends JGEngine
 		// nothing to do
 		// the objects paint themselves
 	}
-	
 }

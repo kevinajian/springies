@@ -1,4 +1,4 @@
-package objects.Wall;
+package Objects.Wall;
 
 import org.jbox2d.common.Vec2;
 
