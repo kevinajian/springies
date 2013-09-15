@@ -66,10 +66,11 @@ public class Springies extends JGEngine
 //		new Spring("spring1", 1, mass1, mass2 ); 
 				
 		// parses data
-		String xmlFile = "ball"; // set xml file here
+		String xmlFile = "example"; // set xml file here
 		File data = new File("xml/"+xmlFile+".xml");
 		Parser parser = new Parser();
 		Document xmlData  = parser.parse(data);
+		
 		// create objects from data
 		parser.createMasses(xmlData.getElementsByTagName("mass"));
 		parser.createFixedMasses(xmlData.getElementsByTagName("fixed"));
