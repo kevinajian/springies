@@ -138,12 +138,11 @@ public abstract class PhysicalObject extends JGObject
 	}
 	
 	public float distance(PhysicalObject obj){
-		float dx = ((myBody.getPosition().x)-(obj.getBody().getPosition().x));
-		float dy = (myBody.getPosition().y)-(obj.getBody().getPosition().y);
+		float dx = getX() - obj.getX();
+		float dy = getY() - obj.getY();
 		float dxSquared = dx*dx;
 		float dySquared = dy*dy;
 		return (float)Math.sqrt(dxSquared+dySquared);
-
 	}
 	
 	public void applyForce(Vec2 force){
@@ -152,6 +151,14 @@ public abstract class PhysicalObject extends JGObject
 	
 	public Vec2 getPosition(){
 		return myBody.getPosition();
+	}
+	
+	public float getX(){
+		return getPosition().x;
+	}
+	
+	public float getY(){
+		return getPosition().y;
 	}
 	
 	@Override

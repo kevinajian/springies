@@ -16,9 +16,10 @@ import org.w3c.dom.NamedNodeMap;
 public class Parser {
 	
 	private String myPath;
-	
-	public Parser(String path){
+	private Springies myEngine;
+	public Parser(String path, Springies engine){
 		myPath = path;
+		myEngine = engine;
 	}
 	
 	public void parse(){
