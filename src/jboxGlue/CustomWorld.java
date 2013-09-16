@@ -20,7 +20,7 @@ import objects.Spring;
 public class CustomWorld extends World {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
 	private HashMap<String, Spring> mySprings = new HashMap<String, Spring>();
-	private List<FixedForce> forces = new ArrayList<FixedForce>();
+	private List<Force> forces = new ArrayList<Force>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
@@ -50,7 +50,7 @@ public class CustomWorld extends World {
 		mySprings.put(spring.getName(), spring);
 	}
 	
-	public void addForce(FixedForce force){
+	public void addForce(Force force){
 		forces.add(force);
 	}
 	
@@ -80,10 +80,9 @@ public class CustomWorld extends World {
 	}
 	
 	public void applyEnvironmentalForces(){
-		for(FixedForce force : forces){
+		for(Force force : forces){
 			for(Mass mass : getMasses()){
-				Vec2 forceToApply = force.getForceToApply();
-				mass.applyForce(forceToApply);
+				force.applyForceToObject(mass);
 			}
 		}
 	}
