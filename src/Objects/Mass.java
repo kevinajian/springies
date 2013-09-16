@@ -1,4 +1,4 @@
-package Objects;
+package objects;
 
 import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.WorldManager;
@@ -54,6 +54,4 @@ public class Mass extends PhysicalObjectCircle{
 		// apply the change
 		myBody.setLinearVelocity( velocity );
 	}
-	
-	
 }

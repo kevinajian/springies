@@ -1,6 +1,6 @@
 package jboxGlue;
 
-import Objects.Mass;
+import objects.Mass;
 
 import org.jbox2d.collision.ShapeDef;
 import org.jbox2d.common.Vec2;
