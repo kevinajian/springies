@@ -12,14 +12,10 @@ public abstract class Force {
 		myForce = force;
 		myExponent = exponent;
 	}
-	
-	public Vec2 getForceToApply(float proportional){
-		float proportionalMagnitude = (float)((Math.pow(proportional, myExponent)));
-		return myForce.mul((float)(1.0/proportionalMagnitude));
-	}
-	
+		
 	protected Vec2 getForce(){
 		return myForce;
 	}
 	
+	public abstract void applyForceToObject(PhysicalObject obj);
 }

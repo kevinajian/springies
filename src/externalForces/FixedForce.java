@@ -13,6 +13,10 @@ public class FixedForce extends Force {
 		super(force, (float)0.0);
 	}
 	
+	public void applyForceToObject(PhysicalObject obj){
+		obj.applyForce(getForceToApply());
+	}
+	
 	public Vec2 getForceToApply(){
 		return getForce();
 	}

@@ -10,6 +10,12 @@ public class CenterOfMass extends Force{
 		super(force, exponent);
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public void applyForceToObject(PhysicalObject obj) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

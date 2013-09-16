@@ -1,6 +1,8 @@
  package jboxGlue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
@@ -18,7 +20,7 @@ import objects.Spring;
 public class CustomWorld extends World {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
 	private HashMap<String, Spring> mySprings = new HashMap<String, Spring>();
-	private FixedForce[] FixedForces = { new Gravity(new Vec2((float)0.0, (float)9.8)) };
+	private List<FixedForce> forces = new ArrayList<FixedForce>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
@@ -48,6 +50,10 @@ public class CustomWorld extends World {
 		mySprings.put(spring.getName(), spring);
 	}
 	
+	public void addForce(FixedForce force){
+		forces.add(force);
+	}
+	
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
 			return new Vec2();
@@ -74,7 +80,7 @@ public class CustomWorld extends World {
 	}
 	
 	public void applyEnvironmentalForces(){
-		for(FixedForce force : FixedForces){
+		for(FixedForce force : forces){
 			for(Mass mass : getMasses()){
 				Vec2 forceToApply = force.getForceToApply();
 				mass.applyForce(forceToApply);
