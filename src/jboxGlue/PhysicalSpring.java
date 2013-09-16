@@ -85,7 +85,6 @@ public abstract class PhysicalSpring extends JGObject {
 
 		myBody1.applyForce(directionToApplyForce.mul(-1*force));
 		myBody2.applyForce(directionToApplyForce.mul(force));
-		
 	}
 	
 	//will return a normalized vector with from the body2's position
