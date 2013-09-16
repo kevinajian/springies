@@ -1,5 +1,7 @@
 package externalForces;
 
+import jboxGlue.PhysicalObject;
+
 import org.jbox2d.common.Vec2;
 
 public class Gravity extends FixedForce {
@@ -14,5 +16,9 @@ public class Gravity extends FixedForce {
 	
 	public static Vec2 convertDegreeToVector(float degree){
 		return new Vec2((float) Math.cos(degree), (float)Math.sin(degree));
+	}
+	
+	public void applyForceToObject(PhysicalObject obj){
+		obj.applyForce(getForceToApply().mul(obj.getBody().getMass()));
 	}
 }
