@@ -34,7 +34,6 @@ public abstract class PhysicalSpring extends JGObject {
 	
 	private void init( Mass body1, Mass body2)
 	{
-		// init defaults
 		myEngine = (Springies)eng;
 		myBody1 = body1;
 		myBody2 = body2;

@@ -60,7 +60,7 @@ public class Springies extends JGEngine
 		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 
 		// set environment and world forces
-		File environment = new File("xml/environment.xml");
+		File environment = new File("assets/environment.xml");
 		if (environment.exists()){
 			Parser environmentParser = new Parser();
 			Document xmlEnvironment = environmentParser.parse(environment);
@@ -79,15 +79,15 @@ public class Springies extends JGEngine
 		}
 		
 		// create objects from data
-		String xmlFile = "ball"; // set xml file here
-		File data = new File("xml/"+xmlFile+".xml");
+		String xmlFile = "daintywalker"; // set xml file here
+		File data = new File("assets/"+xmlFile+".xml");
 		Parser parser = new Parser();
 		Document xmlData  = parser.parse(data);
 		
-		parser.createMasses(xmlData.getElementsByTagName("mass"),(float) displayHeight());
-		parser.createFixedMasses(xmlData.getElementsByTagName("fixed"),(float) displayHeight());
-		parser.createSprings(xmlData.getElementsByTagName("spring"));
-		parser.createMuscles(xmlData.getElementsByTagName("muscle"));
+		parser.createMasses(xmlData.getElementsByTagName("mass"),(float) displayHeight(), false);
+		parser.createMasses(xmlData.getElementsByTagName("fixed"),(float) displayHeight(), true);
+		parser.createMusclesAndSprings(xmlData.getElementsByTagName("spring"));
+		parser.createMusclesAndSprings(xmlData.getElementsByTagName("muscle"));
 	}
 	
 	@Override
@@ -97,9 +97,6 @@ public class Springies extends JGEngine
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
-		
-		Vec2 centerOfMass = WorldManager.getWorld().getCenterOfMass();
-		System.out.println("center: "+centerOfMass);
 		
 		checkCollision( 1 + 2, 1 );
 	}

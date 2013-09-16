@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import objects.*;
+import objects.FixedMass;
 import objects.wall.*;
 
 import externalForces.*;
@@ -40,25 +41,8 @@ public class Parser {
 		}
 		return null;
 	}
-	
-	public void createFixedMasses(NodeList masses, float gameHeight){
-		String id; double x, y; int cID = 1; // defaults
-		
-		for (int i=0; i<masses.getLength(); i++){
-			Node currMassObject = masses.item(i);
-		    NamedNodeMap currMassAttr = currMassObject.getAttributes();
-		    Node currID = currMassAttr.getNamedItem("id");
-		    id = currID.getNodeValue();
-		    x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-		    y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
-		    
-		    FixedMass mass = new FixedMass(id,cID,x,y);
-		    myMasses.put(id, mass);
-		  }
-	}
 
-		  
-	public void createMasses(NodeList masses, float gameHeight){
+	public void createMasses(NodeList masses, float gameHeight, boolean isFixed){
 		String id; int cID = 1; double x, y, mass=1; float xVel=0, yVel=0; // defaults
 		for (int i=0; i<masses.getLength(); i++){
 			Node currMassObject = masses.item(i);
@@ -66,46 +50,40 @@ public class Parser {
 			id = currMassAttr.getNamedItem("id").getNodeValue();
 			x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
 			y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
-			if (hasAttribute(currMassAttr,"mass")) mass = Double.parseDouble(currMassAttr.getNamedItem("mass").getNodeValue());
-			if (hasAttribute(currMassAttr,"vx")) xVel = Float.parseFloat(currMassAttr.getNamedItem("vx").getNodeValue()); 
-			if (hasAttribute(currMassAttr,"vy")) yVel = Float.parseFloat(currMassAttr.getNamedItem("vy").getNodeValue());
-			
-			Mass massObject = new Mass(id,cID,x,y,mass,xVel,yVel);
-			myMasses.put(id, massObject);
+			if (isFixed){
+				FixedMass massObject =  new FixedMass(id,cID,x,y);
+				myMasses.put(id, massObject);
+			}
+			else {
+				if (hasAttribute(currMassAttr,"mass")) mass = Double.parseDouble(currMassAttr.getNamedItem("mass").getNodeValue());
+				if (hasAttribute(currMassAttr,"vx")) xVel = Float.parseFloat(currMassAttr.getNamedItem("vx").getNodeValue()); 
+				if (hasAttribute(currMassAttr,"vy")) yVel = Float.parseFloat(currMassAttr.getNamedItem("vy").getNodeValue());
+				Mass massObject = new Mass(id,cID,x,y,mass,xVel,yVel);
+				myMasses.put(id, massObject);
+				}
 		}
 	}
-		
-	public void createSprings(NodeList springs){
-		String id = "spring"; int cID = 2; float k = 1, length=0;Mass massA, massB; // defaults
-	    
-	    for (int i=0; i<springs.getLength(); i++){
-	    	Node currSpring = springs.item(i);
-	    	NamedNodeMap springAttr = currSpring.getAttributes();
-	    	massA = myMasses.get(springAttr.getNamedItem("a").getNodeValue());
-	    	massB = myMasses.get(springAttr.getNamedItem("b").getNodeValue());
-	    	if (hasAttribute(springAttr,"restLength")) length = Float.parseFloat(springAttr.getNamedItem("restlength").getNodeValue());
-	    	else length = massA.distance(massB); // default to distance between mass A and mass B
-	    	if (hasAttribute(springAttr,"k")) k = Float.parseFloat(springAttr.getNamedItem("constant").getNodeValue());
-	      
-	    	Spring spring = new Spring(id, cID, massA, massB, length, k);
-	    }
-	}
 	  
-	// can combine with createSprings - if (has amplitude) create muscle, else spring;
-	public void createMuscles(NodeList muscles){
-		String id = "muscle"; int cID = 2; float k = 1, length = 0, amplitude, frequency = 20; Mass massA, massB; // defaults
+	public void createMusclesAndSprings(NodeList musclesAndSprings){
+		String id; int cID = 2; float k = 1, length = 0, amplitude, frequency = 20; Mass massA, massB; // defaults
 	    
-	    for (int i=0; i<muscles.getLength(); i++){
-	    	Node currMuscle = muscles.item(i);
-	    	NamedNodeMap muscleAttr = currMuscle.getAttributes();
-	    	massA = myMasses.get(muscleAttr.getNamedItem("a").getNodeValue());
-	    	massB = myMasses.get(muscleAttr.getNamedItem("b").getNodeValue());
-	    	if (hasAttribute(muscleAttr,"restLength")) length = Float.parseFloat(muscleAttr.getNamedItem("restlength").getNodeValue());
+	    for (int i=0; i<musclesAndSprings.getLength(); i++){
+	    	Node curr = musclesAndSprings.item(i);
+	    	NamedNodeMap attr = curr.getAttributes();
+	    	massA = myMasses.get(attr.getNamedItem("a").getNodeValue());// 
+	    	massB = myMasses.get(attr.getNamedItem("b").getNodeValue());
+	    	if (hasAttribute(attr,"restLength")) length = Float.parseFloat(attr.getNamedItem("restlength").getNodeValue());
 	    	else length = massA.distance(massB); // default to distance between mass A and mass B
-	    	if (hasAttribute(muscleAttr,"k")) k = Float.parseFloat(muscleAttr.getNamedItem("constant").getNodeValue());
-	    	amplitude = Float.parseFloat(muscleAttr.getNamedItem("amplitude").getNodeValue());
-	      
-	    	Muscle muscle = new Muscle(id, cID, massA, massB, length, k, amplitude, frequency);
+	    	if (hasAttribute(attr,"k")) k = Float.parseFloat(attr.getNamedItem("constant").getNodeValue());
+	    	if (hasAttribute(attr,"amplitude")) {
+	    		id = "muscle";
+	    		amplitude = Float.parseFloat(attr.getNamedItem("amplitude").getNodeValue());
+	    		Muscle muscle = new Muscle(id, cID, massA, massB, length, k, amplitude, frequency);
+	    	}
+	    	else {
+	    		id = "spring";
+	    		Spring spring = new Spring(id, cID, massA, massB, length, k);
+	    	}
 	    }
 	}
 	  
