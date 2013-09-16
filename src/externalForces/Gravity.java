@@ -13,6 +13,6 @@ public class Gravity extends FixedForce {
 	}
 	
 	public static Vec2 convertDegreeToVector(float degree){
-		return new Vec2((float) Math.cos(degree)*-1, (float)Math.sin(degree)*-1);
+		return new Vec2((float) Math.cos(degree), (float)Math.sin(degree));
 	}
 }
