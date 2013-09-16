@@ -16,9 +16,4 @@ public class FixedForce extends Force {
 	public Vec2 getForceToApply(){
 		return getForce();
 	}
-
-	@Override
-	public void applyForceToObject(PhysicalObject obj) {
-		obj.applyForce(getForceToApply());
-	}	
 }

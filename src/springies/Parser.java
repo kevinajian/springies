@@ -36,6 +36,7 @@ public class Parser {
 		}
 		return null;
 	}
+	
 	public void createFixedMasses(NodeList masses){
 		String id; double x, y; int cID = 1; // defaults
 		
@@ -50,7 +51,8 @@ public class Parser {
 		    FixedMass mass = new FixedMass(id,cID,x,y);
 		    myMasses.put(id, mass);
 		  }
-		}
+	}
+
 		  
 	public void createMasses(NodeList masses){
 		String id; int cID = 1; double x, y, mass=1; float xVel=0, yVel=0; // defaults
@@ -116,6 +118,7 @@ public class Parser {
 	public void setCenterMass(NodeList centerMass){
 		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
+	    
 	}
 	  
 	public void setWalls(NodeList walls, double width, double height, double thickness,double margin,double displayWidth,double displayHeight){
@@ -147,7 +150,6 @@ public class Parser {
 	    }
 	}
 	
-	  
 	private boolean hasAttribute(NamedNodeMap attributes, String attribute){
 	    for (int i=0; i<attributes.getLength(); i++){
 	    	if (attributes.item(i).getNodeName().equals(attribute)) return true;

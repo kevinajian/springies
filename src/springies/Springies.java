@@ -105,6 +105,9 @@ public class Springies extends JGEngine
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
 		
+		//Vec2 centerOfMass = WorldManager.getWorld().getCenterOfMass();
+		//System.out.println("center: "+centerOfMass);
+		
 		checkCollision( 1 + 2, 1 );
 	}
 	
