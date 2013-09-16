@@ -20,5 +20,5 @@ public class Viscosity extends FixedForce {
 		Vec2 linearVelocity = obj.getBody().getLinearVelocity();
 		obj.getBody().m_linearVelocity = linearVelocity.mul(myMagnitude);
 	}
-
+	
 }
