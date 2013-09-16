@@ -79,8 +79,8 @@ public class Springies extends JGEngine
 		}
 		
 		// create objects from data
-		String xmlFile = "daintywalker"; // set xml file here
-		File data = new File("assets/"+xmlFile+".xml");
+		String xmlFile = "assets/daintywalker.xml"; // set xml file here
+		File data = new File(xmlFile);
 		Parser parser = new Parser();
 		Document xmlData  = parser.parse(data);
 		
