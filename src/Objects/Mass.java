@@ -54,6 +54,4 @@ public class Mass extends PhysicalObjectCircle{
 		// apply the change
 		myBody.setLinearVelocity( velocity );
 	}
-	
-	
 }

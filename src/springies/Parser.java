@@ -19,8 +19,10 @@ import org.w3c.dom.NamedNodeMap;
 
 public class Parser {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
+	private float myGameHeight;
 	
-	public Parser(){
+	public Parser(float gameHeight){
+		myGameHeight = gameHeight;
 	}
 	
 	public Document parse(File file){
@@ -46,7 +48,7 @@ public class Parser {
 		    Node currID = currMassAttr.getNamedItem("id");
 		    id = currID.getNodeValue();
 		    x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-		    y = Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
+		    y = myGameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 		    
 		    FixedMass mass = new FixedMass(id,cID,x,y);
 		    myMasses.put(id, mass);
@@ -61,7 +63,7 @@ public class Parser {
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
 			id = currMassAttr.getNamedItem("id").getNodeValue();
 			x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-			y = Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
+			y = myGameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 			if (hasAttribute(currMassAttr,"mass")) mass = Double.parseDouble(currMassAttr.getNamedItem("mass").getNodeValue());
 			System.out.println(mass);
 			if (hasAttribute(currMassAttr,"vx")) xVel = Float.parseFloat(currMassAttr.getNamedItem("vx").getNodeValue()); 
@@ -119,14 +121,21 @@ public class Parser {
 		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
 	    
+	    if (exponent==2){
+	    	
+	    }
+	    else if (exponent==0){
+	    	
+	    }
+	    
 	}
 	  
 	public void setWalls(NodeList walls, double width, double height, double thickness,double margin,double displayWidth,double displayHeight){
 	    for(int i=0; i<walls.getLength(); i++){
 	    	int id = Integer.parseInt(walls.item(i).getAttributes().getNamedItem("id").getNodeValue());
-	    	float magnitude = Float.parseFloat(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    	float magnitude =0;// Float.parseFloat(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    	float exponent = Float.parseFloat(walls.item(i).getAttributes().getNamedItem("exponent").getNodeValue());
-	    	
+	    	margin=0;
 	    	if (id==1){
 	    		Wall ceiling = new TopWall("wallC", 2, JGColor.green, width, thickness);
 	    		ceiling.setPos(displayWidth/2, margin);
