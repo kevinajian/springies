@@ -62,7 +62,7 @@ public class Springies extends JGEngine
 		// set environment and world forces
 		File environment = new File("xml/environment.xml");
 		if (environment.exists()){
-			Parser environmentParser = new Parser((float) displayHeight());
+			Parser environmentParser = new Parser();
 			Document xmlEnvironment = environmentParser.parse(environment);
 			
 			environmentParser.setGravity(xmlEnvironment.getElementsByTagName("gravity"));
@@ -79,13 +79,13 @@ public class Springies extends JGEngine
 		}
 		
 		// create objects from data
-		String xmlFile = "daintywalker"; // set xml file here
+		String xmlFile = "ball"; // set xml file here
 		File data = new File("xml/"+xmlFile+".xml");
-		Parser parser = new Parser((float) displayHeight());
+		Parser parser = new Parser();
 		Document xmlData  = parser.parse(data);
 		
-		parser.createMasses(xmlData.getElementsByTagName("mass"));
-		parser.createFixedMasses(xmlData.getElementsByTagName("fixed"));
+		parser.createMasses(xmlData.getElementsByTagName("mass"),(float) displayHeight());
+		parser.createFixedMasses(xmlData.getElementsByTagName("fixed"),(float) displayHeight());
 		parser.createSprings(xmlData.getElementsByTagName("spring"));
 		parser.createMuscles(xmlData.getElementsByTagName("muscle"));
 	}

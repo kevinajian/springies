@@ -11,6 +11,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import objects.*;
 import objects.wall.*;
 
+import externalForces.*;
+
+import jboxGlue.*;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,10 +23,8 @@ import org.w3c.dom.NamedNodeMap;
 
 public class Parser {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
-	private float myGameHeight;
 	
-	public Parser(float gameHeight){
-		myGameHeight = gameHeight;
+	public Parser(){
 	}
 	
 	public Document parse(File file){
@@ -39,7 +41,7 @@ public class Parser {
 		return null;
 	}
 	
-	public void createFixedMasses(NodeList masses){
+	public void createFixedMasses(NodeList masses, float gameHeight){
 		String id; double x, y; int cID = 1; // defaults
 		
 		for (int i=0; i<masses.getLength(); i++){
@@ -48,7 +50,7 @@ public class Parser {
 		    Node currID = currMassAttr.getNamedItem("id");
 		    id = currID.getNodeValue();
 		    x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-		    y = myGameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
+		    y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 		    
 		    FixedMass mass = new FixedMass(id,cID,x,y);
 		    myMasses.put(id, mass);
@@ -56,16 +58,15 @@ public class Parser {
 	}
 
 		  
-	public void createMasses(NodeList masses){
+	public void createMasses(NodeList masses, float gameHeight){
 		String id; int cID = 1; double x, y, mass=1; float xVel=0, yVel=0; // defaults
 		for (int i=0; i<masses.getLength(); i++){
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
 			id = currMassAttr.getNamedItem("id").getNodeValue();
 			x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-			y = myGameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
+			y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 			if (hasAttribute(currMassAttr,"mass")) mass = Double.parseDouble(currMassAttr.getNamedItem("mass").getNodeValue());
-			System.out.println(mass);
 			if (hasAttribute(currMassAttr,"vx")) xVel = Float.parseFloat(currMassAttr.getNamedItem("vx").getNodeValue()); 
 			if (hasAttribute(currMassAttr,"vy")) yVel = Float.parseFloat(currMassAttr.getNamedItem("vy").getNodeValue());
 			
@@ -111,10 +112,16 @@ public class Parser {
 	public void setGravity(NodeList gravity){
 		float direction = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem("direction").getNodeValue());
 	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    
+	    Gravity g = new Gravity(direction, magnitude);
+	    WorldManager.getWorld().addForce(g);
 	}
-	  
+	 
 	public void setViscosity(NodeList viscosity){
 	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
+	    
+	    Viscosity v = new Viscosity(magnitude);
+	    WorldManager.getWorld().addForce(v);
 	}
 	  
 	public void setCenterMass(NodeList centerMass){
@@ -122,10 +129,10 @@ public class Parser {
 	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem("exponent").getNodeValue());
 	    
 	    if (exponent==2){
-	    	
+	    	CenterOfMass com = new CenterOfMass(magnitude,exponent);
 	    }
 	    else if (exponent==0){
-	    	
+	    	CenterOfMass com = new CenterOfMass(magnitude,exponent);
 	    }
 	    
 	}
@@ -164,6 +171,5 @@ public class Parser {
 	    	if (attributes.item(i).getNodeName().equals(attribute)) return true;
 	    }
 	    return false;
-	}
-		
+	}	
 }
