@@ -19,6 +19,7 @@ public class Gravity extends FixedForce {
 	}
 	
 	public void applyForceToObject(PhysicalObject obj){
-		obj.applyForce(getForceToApply().mul(obj.getBody().getMass()));
+		float scaling = (float) .02;
+		obj.applyForce(getForceToApply().mul(scaling*obj.getBody().getMass()));
 	}
 }
