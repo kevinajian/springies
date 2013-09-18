@@ -54,6 +54,10 @@ public class CustomWorld extends World {
 		forces.add(force);
 	}
 	
+	public List<Force> getForces(){
+		return forces;
+	}
+	
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
 			return new Vec2();

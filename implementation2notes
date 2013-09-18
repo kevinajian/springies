@@ -1,0 +1,21 @@
+Use factory for this in doFrame()
+
+Multiple assemblies
+	N just parses again. C clears all objects except walls
+	Problem with creating objects - the ids would be duplicated
+		Jgame adds id numbers after as well
+		Parser has own hashmap - clear each time
+
+Mouse dragging
+	Make mass at x, y of mouse, use distance, sort, use shortest distanced mass, create a spring with the set rest length, so pull/push will work
+
+Toggle forces
+	When parsing elements put in default environmental forces in custom world
+		Add set default in custom world
+	Forces has to be changed into a hashmap, not just list
+	Worldmanager.getworld. 
+		If in forces, remove
+		If not, take from default values map
+
+Change size of walled area
+	Just add / subtract 10 to margin, clear old wall, create new walls with new margin
