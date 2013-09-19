@@ -33,7 +33,7 @@ public class Springies extends JGEngine
 	private int frame = 0;
 	private static final String xmlDir = "assets";
 	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
-	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "assets/environment.xml"; 
+	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
 
 	public Springies( )
 	{
@@ -76,8 +76,9 @@ public class Springies extends JGEngine
 	{
 		frame++;
 		//TODO: Fix input key listener
-		if(getKey('A')){
+		if(getKey('N')){
 			new AssemblyLoaderDialog(this);
+			clearKey('N');
 		}
 		
 		WorldManager.getWorld().step( 1f, 1 );
