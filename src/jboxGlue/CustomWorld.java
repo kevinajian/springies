@@ -99,5 +99,15 @@ public class CustomWorld extends World {
 		}
 	}
 	
+	public void clearAssemblies(){
+		PhysicalSpring[] springs = getSprings();
+		for(PhysicalSpring spring : springs)
+			spring.remove();
+		Mass[] masses = getMasses();
+		for(Mass mass : masses)
+			mass.remove();
+		myAssemblies.clear();
+	}
+	
 
 }

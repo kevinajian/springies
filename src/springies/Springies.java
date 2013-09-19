@@ -80,6 +80,10 @@ public class Springies extends JGEngine
 			new AssemblyLoaderDialog(this);
 			clearKey('N');
 		}
+		if(getKey('C')){
+			WorldManager.getWorld().clearAssemblies();
+			clearKey('N');
+		}
 		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
