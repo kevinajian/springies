@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
 {
+	private final String DEFAULT_ASSEMBLY_FILEPATH = "assets/daintywalker.xml"; 
 	private int frame = 0;
 	public Springies( )
 	{
@@ -58,36 +59,11 @@ public class Springies extends JGEngine
 		
 		WorldManager.initWorld( this );
 		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
-
+		
 		// set environment and world forces
-		File environment = new File("assets/environment.xml");
-		if (environment.exists()){
-			Parser environmentParser = new Parser();
-			Document xmlEnvironment = environmentParser.parse(environment);
-			
-			environmentParser.setGravity(xmlEnvironment.getElementsByTagName("gravity"));
-			environmentParser.setViscosity(xmlEnvironment.getElementsByTagName("viscosity"));
-			environmentParser.setCenterMass(xmlEnvironment.getElementsByTagName("centermass"));
-			
-			// add walls to bounce off of
-			// NOTE: immovable objects must have no mass}
-			final double WALL_MARGIN = 10;
-			final double WALL_THICKNESS = 10;
-			final double WALL_WIDTH = displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
-			final double WALL_HEIGHT = displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
-			environmentParser.setWalls(xmlEnvironment.getElementsByTagName("wall"),WALL_WIDTH,WALL_HEIGHT,WALL_THICKNESS,WALL_MARGIN,displayWidth(),displayHeight());
-		}
-		
+		setupEnvironment();
 		// create objects from data
-		String xmlFile = "assets/daintywalker.xml"; // set xml file here
-		File data = new File(xmlFile);
-		Parser parser = new Parser();
-		Document xmlData  = parser.parse(data);
-		
-		parser.createMasses(xmlData.getElementsByTagName("mass"),(float) displayHeight(), false);
-		parser.createMasses(xmlData.getElementsByTagName("fixed"),(float) displayHeight(), true);
-		parser.createMusclesAndSprings(xmlData.getElementsByTagName("spring"));
-		parser.createMusclesAndSprings(xmlData.getElementsByTagName("muscle"));
+		loadDefaultAssmebly(DEFAULT_ASSEMBLY_FILEPATH);
 	}
 	
 	@Override
@@ -103,6 +79,20 @@ public class Springies extends JGEngine
 	
 	public int getFrame(){
 		return frame;
+	}
+	
+	private void setupEnvironment(){
+		File environment = new File("assets/environment.xml");
+		if (environment.exists()){
+			Parser environmentParser = new EnvironmentalParser(environment, this);
+			environmentParser.parse();		
+		}
+	}
+	
+	private void loadDefaultAssmebly(String filepath){
+		File data = new File(filepath);
+		Parser parser = new AssemblyParser(data, this);
+		parser.parse();
 	}
 	
 	@Override
