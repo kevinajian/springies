@@ -14,44 +14,56 @@ import externalForces.Force;
 import externalForces.FixedForce;
 import externalForces.Gravity;
 
+import objects.Assembly;
 import objects.Mass;
 import objects.Spring;
 
 public class CustomWorld extends World {
-	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
-	private HashMap<String, PhysicalSpring> mySprings = new HashMap<String, PhysicalSpring>();
-	private List<Force> forces = new ArrayList<Force>();
+	private List<Force> myForces = new ArrayList<Force>();
+	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
 	}
 	
 	public Mass getMass(String id){
-		return myMasses.get(id);
+		for(Assembly assembly : myAssemblies){
+			if(assembly.getMassesMap().get(id) != null)
+				return assembly.getMassesMap().get(id);
+		}
+		return null;
 	}
-	
+
+	/*TODO: REFACTOR TO ALLOW THIS METHOD
 	public PhysicalSpring getSpring(String id){
 		return mySprings.get(id);
 	}
+	*/
 	
 	public Mass[] getMasses(){
-		return myMasses.values().toArray(new Mass[0]);
+		List<Mass> masses = new ArrayList<Mass>();
+		for(Assembly assembly : myAssemblies){
+			masses.addAll(assembly.getMasses());
+		}		
+		System.out.println(masses.toString());
+		return masses.toArray(new Mass[0]);
 	}
 	
-	public Spring[] getSprings(){
-		return myMasses.values().toArray(new Spring[0]);
+	public PhysicalSpring[] getSprings(){
+		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();
+		for(Assembly assembly : myAssemblies){
+			springs.addAll(assembly.getSprings());
+		}
+		return springs.toArray(new PhysicalSpring[0]);
 	}
 	
-	public void addMass(Mass mass){
-		myMasses.put(mass.getName(), mass);
-	}
 	
-	public void addSpring(Spring spring){
-		mySprings.put(spring.getName(), spring);
+	public void addAssembly(Assembly assembly){
+		myAssemblies.add(assembly);
 	}
 	
 	public void addForce(Force force){
-		forces.add(force);
+		myForces.add(force);
 	}
 	
 	public Vec2 getCenterOfMass(){
@@ -80,7 +92,9 @@ public class CustomWorld extends World {
 	}
 	
 	public void applyEnvironmentalForces(){
-		for(Force force : forces){
+		Mass[] masses = getMasses();
+		System.out.println("Number of Masses: ");
+		for(Force force : myForces){
 			for(Mass mass : getMasses()){
 				force.applyForceToObject(mass);
 			}

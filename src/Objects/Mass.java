@@ -26,7 +26,7 @@ public class Mass extends PhysicalObjectCircle{
 	
 	public Mass(String id, int collisionId, double x, double y, double mass, float xVel, float yVel){
 		super(id, collisionId, COLOR, RADIUS, mass);
-		WorldManager.getWorld().addMass(this);
+		//TODO: DELETE IF STUFF WORKS WorldManager.getWorld().addMass(this);
 		setPos(x, y);
 		myBody.setLinearVelocity(new Vec2(xVel, yVel));
 	}

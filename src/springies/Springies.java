@@ -28,7 +28,7 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
 {
-	private final String DEFAULT_ASSEMBLY_FILEPATH = "assets/daintywalker.xml"; 
+	private final String DEFAULT_ASSEMBLY_FILEPATH = "assets/ball.xml"; 
 	private int frame = 0;
 	public Springies( )
 	{

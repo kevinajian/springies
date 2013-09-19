@@ -34,7 +34,8 @@ public class AssemblyParser extends Parser{
 		
 		Map<String, Mass> masses = getTotalMassMap();
 		List<PhysicalSpring> springs = getAllSprings(masses);
-		
+		Assembly assembly = new Assembly(masses, springs);
+		WorldManager.getWorld().addAssembly(assembly);
 	}
 	private Map<String, Mass> getTotalMassMap(){
 		Map<String, Mass> masses = createMasses(myDocument.getElementsByTagName("mass"),(float) myEngine.displayHeight(), false);
