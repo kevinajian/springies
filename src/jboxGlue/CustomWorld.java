@@ -19,7 +19,7 @@ import objects.Spring;
 
 public class CustomWorld extends World {
 	private HashMap<String, Mass> myMasses = new HashMap<String, Mass>();
-	private HashMap<String, Spring> mySprings = new HashMap<String, Spring>();
+	private HashMap<String, PhysicalSpring> mySprings = new HashMap<String, PhysicalSpring>();
 	private List<Force> forces = new ArrayList<Force>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
@@ -30,7 +30,7 @@ public class CustomWorld extends World {
 		return myMasses.get(id);
 	}
 	
-	public Spring getSpring(String id){
+	public PhysicalSpring getSpring(String id){
 		return mySprings.get(id);
 	}
 	
