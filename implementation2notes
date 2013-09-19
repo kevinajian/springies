@@ -1,10 +1,12 @@
 Use factory for this in doFrame()
 
 Multiple assemblies
-	N just parses again. C clears all objects except walls
+	N just parses again. can bring up dialog box or command prompt, take in file name. or just load default assembly. 
+	C clears all objects except walls
 	Problem with creating objects - the ids would be duplicated
 		Jgame adds id numbers after as well
 		Parser has own hashmap - clear each time
+		center of mass would have to be calculated only considering the assembly itself - need to change the way we store masses, possibly add number for assembly
 
 Mouse dragging
 	Make mass at x, y of mouse, use distance, sort, use shortest distanced mass, create a spring with the set rest length, so pull/push will work
