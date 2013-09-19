@@ -15,7 +15,6 @@ public class LeftWall extends VerticalWall {
 	@Override
 	protected void setUnitVector() {
 		myUnitDirectionToRepel = new Vec2((float)1.0, (float)0.0);
-		System.out.println(myUnitDirectionToRepel.toString());
 	}
 
 }

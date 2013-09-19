@@ -1,10 +1,12 @@
 package springies;
 
+import input.AssemblyLoaderDialog;
+
 import java.io.File;
 
 import objects.*;
 import objects.wall.*;
-
+import input.AssemblyLoaderDialog;
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,6 +31,10 @@ import org.w3c.dom.NodeList;
 public class Springies extends JGEngine
 {
 	private int frame = 0;
+	private static final String xmlDir = "assets";
+	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
+	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
+
 	public Springies( )
 	{
 		// set the window size
@@ -58,42 +64,27 @@ public class Springies extends JGEngine
 		
 		WorldManager.initWorld( this );
 		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
-
+		
 		// set environment and world forces
-		File environment = new File("assets/environment.xml");
-		if (environment.exists()){
-			Parser environmentParser = new Parser();
-			Document xmlEnvironment = environmentParser.parse(environment);
-			
-			environmentParser.setGravity(xmlEnvironment.getElementsByTagName("gravity"));
-			environmentParser.setViscosity(xmlEnvironment.getElementsByTagName("viscosity"));
-			environmentParser.setCenterMass(xmlEnvironment.getElementsByTagName("centermass"));
-			
-			// add walls to bounce off of
-			// NOTE: immovable objects must have no mass}
-			final double WALL_MARGIN = 10;
-			final double WALL_THICKNESS = 10;
-			final double WALL_WIDTH = displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
-			final double WALL_HEIGHT = displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
-			environmentParser.setWalls(xmlEnvironment.getElementsByTagName("wall"),WALL_WIDTH,WALL_HEIGHT,WALL_THICKNESS,WALL_MARGIN,displayWidth(),displayHeight());
-		}
-		
+		setupEnvironment();
 		// create objects from data
-		String xmlFile = "assets/daintywalker.xml"; // set xml file here
-		File data = new File(xmlFile);
-		Parser parser = new Parser();
-		Document xmlData  = parser.parse(data);
-		
-		parser.createMasses(xmlData.getElementsByTagName("mass"),(float) displayHeight(), false);
-		parser.createMasses(xmlData.getElementsByTagName("fixed"),(float) displayHeight(), true);
-		parser.createMusclesAndSprings(xmlData.getElementsByTagName("spring"));
-		parser.createMusclesAndSprings(xmlData.getElementsByTagName("muscle"));
+		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 	}
 	
 	@Override
 	public void doFrame( )
 	{
 		frame++;
+		//TODO: Fix input key listener
+		if(getKey('N')){
+			new AssemblyLoaderDialog(this);
+			clearKey('N');
+		}
+		if(getKey('C')){
+			WorldManager.getWorld().clearAssemblies();
+			clearKey('N');
+		}
+		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -103,6 +94,24 @@ public class Springies extends JGEngine
 	
 	public int getFrame(){
 		return frame;
+	}
+	
+	public void loadAssembly(String filename){
+		File data = new File(getXMLFilepath(filename));
+		Parser parser = new AssemblyParser(data, this);
+		parser.parse();
+	}
+	
+	private String getXMLFilepath(String filename){
+		return xmlDir+"/"+filename;
+	}
+	
+	private void setupEnvironment(){
+		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
+		if (environment.exists()){
+			Parser environmentParser = new EnvironmentalParser(environment, this);
+			environmentParser.parse();		
+		}
 	}
 	
 	@Override
