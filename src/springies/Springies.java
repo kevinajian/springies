@@ -1,10 +1,12 @@
 package springies;
 
+import input.AssemblyLoaderDialog;
+
 import java.io.File;
 
 import objects.*;
 import objects.wall.*;
-
+import input.AssemblyLoaderDialog;
 import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,8 +30,11 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
 {
-	private final String DEFAULT_ASSEMBLY_FILEPATH = "assets/ball.xml"; 
 	private int frame = 0;
+	private static final String xmlDir = "assets";
+	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
+	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "assets/environment.xml"; 
+
 	public Springies( )
 	{
 		// set the window size
@@ -63,13 +68,18 @@ public class Springies extends JGEngine
 		// set environment and world forces
 		setupEnvironment();
 		// create objects from data
-		loadDefaultAssmebly(DEFAULT_ASSEMBLY_FILEPATH);
+		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 	}
 	
 	@Override
 	public void doFrame( )
 	{
 		frame++;
+		//TODO: Fix input key listener
+		if(getKey('A')){
+			new AssemblyLoaderDialog(this);
+		}
+		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -81,18 +91,22 @@ public class Springies extends JGEngine
 		return frame;
 	}
 	
+	public void loadAssembly(String filename){
+		File data = new File(getXMLFilepath(filename));
+		Parser parser = new AssemblyParser(data, this);
+		parser.parse();
+	}
+	
+	private String getXMLFilepath(String filename){
+		return xmlDir+"/"+filename;
+	}
+	
 	private void setupEnvironment(){
-		File environment = new File("assets/environment.xml");
+		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
 			Parser environmentParser = new EnvironmentalParser(environment, this);
 			environmentParser.parse();		
 		}
-	}
-	
-	private void loadDefaultAssmebly(String filepath){
-		File data = new File(filepath);
-		Parser parser = new AssemblyParser(data, this);
-		parser.parse();
 	}
 	
 	@Override

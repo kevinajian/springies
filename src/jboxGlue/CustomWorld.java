@@ -45,7 +45,6 @@ public class CustomWorld extends World {
 		for(Assembly assembly : myAssemblies){
 			masses.addAll(assembly.getMasses());
 		}		
-		System.out.println(masses.toString());
 		return masses.toArray(new Mass[0]);
 	}
 	
@@ -93,7 +92,6 @@ public class CustomWorld extends World {
 	
 	public void applyEnvironmentalForces(){
 		Mass[] masses = getMasses();
-		System.out.println("Number of Masses: ");
 		for(Force force : myForces){
 			for(Mass mass : getMasses()){
 				force.applyForceToObject(mass);

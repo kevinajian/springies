@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 public abstract class Parser {
 	protected JGEngine myEngine;
 	protected Document myDocument;
+
 	protected Parser(File file, JGEngine engine){
 		myEngine = engine;
 		myDocument = createDocument(file);

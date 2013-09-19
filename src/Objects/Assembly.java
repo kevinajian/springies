@@ -19,7 +19,6 @@ public class Assembly {
 		for(Mass mass : myMassesMap.values()){
 			masses.add(mass);
 		}
-		System.out.printf("get masses of size %d\n", masses.size());
 		return masses;
 	}
 	
