@@ -109,5 +109,20 @@ public class CustomWorld extends World {
 		myAssemblies.clear();
 	}
 	
+	public Mass findClosestMass(Mass m){
+		Mass[] masses = getMasses();
+		if(masses.length==0)return null;
+		Mass closestMass = masses[0];
+		float minDistance = Integer.MAX_VALUE;
+		
+		for(Mass mass : masses){
+			float distance = mass.distance(m);
+			if(distance < minDistance){
+				minDistance = distance;
+				closestMass = mass;
+			}
+		}
+		return closestMass;
+	}
 
 }

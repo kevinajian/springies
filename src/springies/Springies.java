@@ -1,6 +1,7 @@
 package springies;
 
 import input.AssemblyLoaderDialog;
+import input.MouseListener;
 
 import java.io.File;
 
@@ -34,7 +35,7 @@ public class Springies extends JGEngine
 	private static final String xmlDir = "assets";
 	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
 	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
-
+	private MouseListener myMouseListener;
 	public Springies( )
 	{
 		// set the window size
@@ -69,8 +70,13 @@ public class Springies extends JGEngine
 		setupEnvironment();
 		// create objects from data
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
+		
+		myMouseListener = new MouseListener(this);
 	}
 	
+	boolean lastWasClicked = false;
+	Spring userSpring;
+	MouseMass userMass;
 	@Override
 	public void doFrame( )
 	{
@@ -84,7 +90,7 @@ public class Springies extends JGEngine
 			WorldManager.getWorld().clearAssemblies();
 			clearKey('N');
 		}
-		
+		myMouseListener.listen();
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
