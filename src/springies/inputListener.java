@@ -32,7 +32,7 @@ public class InputListener{
 		// toggle forces
 		if (myEngine.getKey(KeyEvent.VK_G)){
 			Gravity.toggleForce();
-			System.out.println("nothing");
+			//System.out.println("nothing");
 			myEngine.clearKey(KeyEvent.VK_G);
 		}
 		if (myEngine.getKey(KeyEvent.VK_V)){
@@ -45,7 +45,7 @@ public class InputListener{
 		}
 		if (myEngine.getKey(KeyEvent.VK_1)){
 			Wall currWall = myParser.getWall("1");
-			System.out.println(currWall.getName());
+			//System.out.println(currWall.getName());
 			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 			currWallRepulsionForce.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_1);

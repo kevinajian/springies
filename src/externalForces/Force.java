@@ -22,8 +22,8 @@ public abstract class Force {
 	public abstract void applyForceToObject(PhysicalObject obj);
 	
 	public static void toggleForce(){
-		System.out.println("toggled");
 		forceOn = !forceOn;
+		//System.out.println("toggled"+forceOn);
 	}
 	
 	public boolean shouldApply(){
