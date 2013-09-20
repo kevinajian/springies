@@ -82,16 +82,7 @@ public class Springies extends JGEngine
 		//TODO: Fix input key listener
 		InputListener inputListener = new InputListener((this), myEnvironmentParser);
 		inputListener.checkForInput();
-		/*
-		if(getKey('N')){
-			new AssemblyLoaderDialog(this);
-			clearKey('N');
-		}
-		if(getKey('C')){
-			WorldManager.getWorld().clearAssemblies();
-			clearKey('N');
-		}
-		*/
+
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();

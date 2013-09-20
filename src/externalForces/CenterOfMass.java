@@ -35,6 +35,7 @@ public class CenterOfMass extends Force{
 	
 	private float distance(Vec2 one, Vec2 two){
 		float dx = one.x - two.x;
+		
 		float dy = one.y - two.y;
 		return (float) Math.sqrt(dx*dx+dy*dy);
 	}

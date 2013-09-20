@@ -4,6 +4,8 @@ import input.AssemblyLoaderDialog;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import objects.wall.*;
+import externalForces.*;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
@@ -15,7 +17,6 @@ public class InputListener{
 		myEngine = engine;
 		myParser = parser;
 	}
-	
 	
 	public void checkForInput(){
 		// checks to create / clear assemblies
@@ -30,29 +31,41 @@ public class InputListener{
 		
 		// toggle forces
 		if (myEngine.getKey(KeyEvent.VK_G)){
-			
+			Gravity.toggleForce();
+			System.out.println("nothing");
 			myEngine.clearKey(KeyEvent.VK_G);
 		}
 		if (myEngine.getKey(KeyEvent.VK_V)){
-			
+			Viscosity.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_V);
 		}
 		if (myEngine.getKey(KeyEvent.VK_M)){
-			
+			CenterOfMass.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_M);
 		}
 		if (myEngine.getKey(KeyEvent.VK_1)){
+			Wall currWall = myParser.getWall("1");
+			System.out.println(currWall.getName());
+			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
+			currWallRepulsionForce.toggleForce();
+			myEngine.clearKey(KeyEvent.VK_1);
 		}
 		if (myEngine.getKey(KeyEvent.VK_2)){
-			
+			Wall currWall = myParser.getWall("2");
+			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
+			currWallRepulsionForce.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_2);
 		}
 		if (myEngine.getKey(KeyEvent.VK_3)){
-			
+			Wall currWall = myParser.getWall("3");
+			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
+			currWallRepulsionForce.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_3);
 		}
 		if (myEngine.getKey(KeyEvent.VK_4)){
-			
+			Wall currWall = myParser.getWall("4");
+			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
+			currWallRepulsionForce.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_4);
 		}
 		
@@ -70,10 +83,6 @@ public class InputListener{
 	}
 	
 	public void makeNewWalls(double newMargin){
-		//WorldManager.getWorld().clearWall("1");
-		//WorldManager.getWorld().clearWall("2");
-		//WorldManager.getWorld().clearWall("3");
-		//WorldManager.getWorld().clearWall("4");
 		WorldManager.getWorld().clearWalls();
 		myParser.makeNewWalls(newMargin);
 	}

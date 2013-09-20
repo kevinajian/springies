@@ -22,8 +22,7 @@ import objects.Spring;
 import objects.wall.Wall;
 
 public class CustomWorld extends World {
-	//private List<Force> myForces = new ArrayList<Force>();
-	private HashMap myForces = new HashMap();
+	private List<Force> myForces = new ArrayList<Force>();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
 	private List<Wall> myWalls = new ArrayList<Wall>();
 	
@@ -64,16 +63,10 @@ public class CustomWorld extends World {
 	public void addAssembly(Assembly assembly){
 		myAssemblies.add(assembly);
 	}
-	/*
+	
 	public void addForce(Force force){
 		myForces.add(force);
 	}
-	*/
-	
-	public void addForce(String id, Force force){
-		myForces.put(id, force);
-	}
-	
 	
 	public void addWall(Wall wall){
 		myWalls.add(wall);
@@ -84,6 +77,7 @@ public class CustomWorld extends World {
 		return forces;
 	}
 	*/
+	
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
 			return new Vec2();
@@ -111,10 +105,11 @@ public class CustomWorld extends World {
 	
 	public void applyEnvironmentalForces(){
 		Mass[] masses = getMasses();
-		for(Force force: (Force[]) myForces.values().toArray()){
-		//for(Force force : myForces){
-			for(Mass mass : getMasses()){
-				force.applyForceToObject(mass);
+		for(Force force : myForces){
+			if (force.shouldApply()){
+				for(Mass mass : getMasses()){
+					force.applyForceToObject(mass);
+				}
 			}
 		}
 	}
