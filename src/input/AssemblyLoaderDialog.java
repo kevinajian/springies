@@ -27,7 +27,7 @@ public class AssemblyLoaderDialog extends JFrame {
 		myTextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String input = myTextField.getText();
-				hanldeUserSubmission(input);
+				handleUserSubmission(input);
 			}
 		});
 		
@@ -36,7 +36,7 @@ public class AssemblyLoaderDialog extends JFrame {
 		mySpringies = springies;
 	}
 	
-	private void hanldeUserSubmission(String filename){
+	private void handleUserSubmission(String filename){
 		mySpringies.loadAssembly(filename);
 	}
 }

@@ -19,26 +19,25 @@ import externalForces.Gravity;
 import externalForces.Viscosity;
 
 public class EnvironmentalParser extends Parser{
-	private final double WALL_MARGIN = 10;
+	private double wall_margin = 10;
 	private final double WALL_THICKNESS = 10;
-	private final double WALL_WIDTH; 
-	private final double WALL_HEIGHT; 
+	private double wall_width; 
+	private double wall_height;
+	private JGEngine myEngine;
 	
 	protected EnvironmentalParser(File file, JGEngine engine) {
 		super(file, engine);
-		WALL_WIDTH  = engine.displayWidth() - WALL_MARGIN*2 + WALL_THICKNESS;
-		WALL_HEIGHT = engine.displayHeight() - WALL_MARGIN*2 + WALL_THICKNESS;
+		myEngine = engine;
+		wall_width  = engine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
+		wall_height = engine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
 	}
 
 	@Override
 	public void parse() {
-		// TODO Auto-generated method stub
 		setGravity(myDocument.getElementsByTagName("gravity"));
 		setViscosity(myDocument.getElementsByTagName("viscosity"));
 		setCenterMass(myDocument.getElementsByTagName("centermass"));
-		setWalls(myDocument.getElementsByTagName("wall"),WALL_WIDTH,WALL_HEIGHT,WALL_THICKNESS,WALL_MARGIN,
-															myEngine.displayWidth(),myEngine.displayHeight());
-
+		setWalls(myDocument.getElementsByTagName("wall"));
 	}
 	
 	private void setGravity(NodeList gravity){
@@ -46,14 +45,16 @@ public class EnvironmentalParser extends Parser{
 	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    
 	    Gravity g = new Gravity(direction, magnitude);
-	    WorldManager.getWorld().addForce(g);
+	    //WorldManager.getWorld().addForce(g);
+	    WorldManager.getWorld().addForce("Gravity", g);
 	}
 	 
 	private void setViscosity(NodeList viscosity){
 	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    
 	    Viscosity v = new Viscosity(magnitude);
-	    WorldManager.getWorld().addForce(v);
+	    //WorldManager.getWorld().addForce(v);
+	    WorldManager.getWorld().addForce("Viscosity", v);
 	}
 	  
 	private void setCenterMass(NodeList centerMass){
@@ -68,34 +69,48 @@ public class EnvironmentalParser extends Parser{
 	    }
 	}
 	
-	private void setWalls(NodeList walls, double width, double height, double thickness,double margin,double displayWidth,double displayHeight){
+	private void setWalls(NodeList walls){
 	    for(int i=0; i<walls.getLength(); i++){
-	    	int id = Integer.parseInt(walls.item(i).getAttributes().getNamedItem("id").getNodeValue());
+	    	String id = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
 	    	float magnitude =0;// Float.parseFloat(walls.item(i).getAttributes().getNamedItem("magnitude").getNodeValue());
 	    	float exponent = Float.parseFloat(walls.item(i).getAttributes().getNamedItem("exponent").getNodeValue());
-	    	margin=0;
-	    	if (id==1){
-	    		Wall ceiling = new TopWall("wallC", 2, JGColor.green, width, thickness);
-	    		ceiling.setPos(displayWidth/2, margin);
+	    	if (id.equals("1")){
+	    		Wall ceiling = new TopWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
+	    		ceiling.setPos(myEngine.displayWidth()/2, wall_margin);
 	    		ceiling.setRepulsionForce(magnitude,exponent);
+	    		WorldManager.getWorld().addWall(ceiling);
 	    	}
-	    	else if (id==2){
-	    		Wall floor = new BottomWall( "wallF", 2, JGColor.green, width, thickness);
-				floor.setPos(displayWidth/2, displayHeight - margin);
+	    	else if (id.equals("2")){
+	    		Wall floor = new BottomWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
+				floor.setPos(myEngine.displayWidth()/2, myEngine.displayHeight() - wall_margin);
 				floor.setRepulsionForce(magnitude,exponent);
+				WorldManager.getWorld().addWall(floor);
 	    	}
-	    	else if (id==3){
-	    		Wall left = new LeftWall("wallL", 2, JGColor.green, thickness, height);
-	    		left.setPos(margin, displayHeight/2);
+	    	else if (id.equals("3")){
+	    		Wall left = new LeftWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
+	    		left.setPos(wall_margin, myEngine.displayHeight()/2);
 	    		left.setRepulsionForce(magnitude,exponent);
+	    		WorldManager.getWorld().addWall(left);
 	    	}
-	    	else if (id==4){
-	    		Wall right = new RightWall("wallR", 2, JGColor.green, thickness, height);
-	    		right.setPos(displayWidth-margin, displayHeight/2);
+	    	else if (id.equals("4")){
+	    		Wall right = new RightWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
+	    		right.setPos(myEngine.displayWidth()-wall_margin, myEngine.displayHeight()/2);
 	    		right.setRepulsionForce(magnitude,exponent);
+	    		WorldManager.getWorld().addWall(right);
 	    	}
 	    }
 	}
-	  
+	
+	private void setWallDimensions(){
+		wall_width  = myEngine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
+		wall_height = myEngine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
+	}
+	 
+	public void makeNewWalls(double newMargin){
+		wall_margin+=newMargin;
+		setWallDimensions();
+		System.out.println(wall_margin);
+		setWalls(myDocument.getElementsByTagName("wall"));
+	}
 
 }

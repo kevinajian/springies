@@ -1,8 +1,11 @@
  package jboxGlue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import jgame.JGObject;
 
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
@@ -13,14 +16,16 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import externalForces.Force;
 import externalForces.FixedForce;
 import externalForces.Gravity;
-
 import objects.Assembly;
 import objects.Mass;
 import objects.Spring;
+import objects.wall.Wall;
 
 public class CustomWorld extends World {
-	private List<Force> myForces = new ArrayList<Force>();
+	//private List<Force> myForces = new ArrayList<Force>();
+	private HashMap myForces = new HashMap();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
+	private List<Wall> myWalls = new ArrayList<Wall>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
@@ -56,19 +61,29 @@ public class CustomWorld extends World {
 		return springs.toArray(new PhysicalSpring[0]);
 	}
 	
-	
 	public void addAssembly(Assembly assembly){
 		myAssemblies.add(assembly);
 	}
-	
+	/*
 	public void addForce(Force force){
 		myForces.add(force);
 	}
+	*/
 	
+	public void addForce(String id, Force force){
+		myForces.put(id, force);
+	}
+	
+	
+	public void addWall(Wall wall){
+		myWalls.add(wall);
+	}
+	
+	/*
 	public List<Force> getForces(){
 		return forces;
 	}
-	
+	*/
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
 			return new Vec2();
@@ -96,7 +111,8 @@ public class CustomWorld extends World {
 	
 	public void applyEnvironmentalForces(){
 		Mass[] masses = getMasses();
-		for(Force force : myForces){
+		for(Force force: (Force[]) myForces.values().toArray()){
+		//for(Force force : myForces){
 			for(Mass mass : getMasses()){
 				force.applyForceToObject(mass);
 			}
@@ -112,6 +128,16 @@ public class CustomWorld extends World {
 			mass.remove();
 		myAssemblies.clear();
 	}
-	
-
+	public void clearWalls(){
+		for (Wall wall: myWalls){
+			wall.remove();
+		}
+	}
+	/*
+	public void clearWall(String id){
+		if (myWalls.containsKey(id))
+			((Wall) myWalls.get(id)).remove();
+			myWalls.remove(id);
+	}
+	*/
 }

@@ -34,6 +34,7 @@ public class Springies extends JGEngine
 	private static final String xmlDir = "assets";
 	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
 	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
+	private EnvironmentalParser myEnvironmentParser;
 
 	public Springies( )
 	{
@@ -69,6 +70,9 @@ public class Springies extends JGEngine
 		setupEnvironment();
 		// create objects from data
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
+		
+		// make key listener
+		//InputListener inputListener = new InputListener();
 	}
 	
 	@Override
@@ -76,6 +80,9 @@ public class Springies extends JGEngine
 	{
 		frame++;
 		//TODO: Fix input key listener
+		InputListener inputListener = new InputListener((this), myEnvironmentParser);
+		inputListener.checkForInput();
+		/*
 		if(getKey('N')){
 			new AssemblyLoaderDialog(this);
 			clearKey('N');
@@ -84,7 +91,7 @@ public class Springies extends JGEngine
 			WorldManager.getWorld().clearAssemblies();
 			clearKey('N');
 		}
-		
+		*/
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -109,8 +116,8 @@ public class Springies extends JGEngine
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
-			Parser environmentParser = new EnvironmentalParser(environment, this);
-			environmentParser.parse();		
+			myEnvironmentParser = new EnvironmentalParser(environment, this);
+			myEnvironmentParser.parse();	
 		}
 	}
 	
