@@ -26,6 +26,7 @@ public class EnvironmentalParser extends Parser{
 	private double wall_height;
 	private JGEngine myEngine;
 	private HashMap myWalls = new HashMap();
+	private boolean[] myWallRepulsionForces = new boolean[]{true, true, true, true};
 
 	protected EnvironmentalParser(File file, JGEngine engine) {
 		super(file, engine);
@@ -84,6 +85,7 @@ public class EnvironmentalParser extends Parser{
 	    		Wall ceiling = new TopWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 	    		ceiling.setPos(myEngine.displayWidth()/2, wall_margin);
 	    		ceiling.setRepulsionForce(magnitude,exponent);
+	    		if (!myWallRepulsionForces[0]) ceiling.getRepulsionForce().toggleForce();
 	    		myWalls.put(id, ceiling);
 	    		WorldManager.getWorld().addWall(ceiling);
 	    	}
@@ -91,6 +93,7 @@ public class EnvironmentalParser extends Parser{
 	    		Wall floor = new BottomWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 				floor.setPos(myEngine.displayWidth()/2, myEngine.displayHeight() - wall_margin);
 				floor.setRepulsionForce(magnitude,exponent);
+				if (!myWallRepulsionForces[2]) floor.getRepulsionForce().toggleForce();
 				myWalls.put(id, floor);
 				WorldManager.getWorld().addWall(floor);
 	    	}
@@ -98,6 +101,7 @@ public class EnvironmentalParser extends Parser{
 	    		Wall left = new LeftWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		left.setPos(wall_margin, myEngine.displayHeight()/2);
 	    		left.setRepulsionForce(magnitude,exponent);
+	    		if (!myWallRepulsionForces[3]) left.getRepulsionForce().toggleForce();
 	    		myWalls.put(id, left);
 	    		WorldManager.getWorld().addWall(left);
 	    	}
@@ -105,6 +109,7 @@ public class EnvironmentalParser extends Parser{
 	    		Wall right = new RightWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		right.setPos(myEngine.displayWidth()-wall_margin, myEngine.displayHeight()/2);
 	    		right.setRepulsionForce(magnitude,exponent);
+	    		if (!myWallRepulsionForces[3]) right.getRepulsionForce().toggleForce();
 	    		myWalls.put(id, right);
 	    		WorldManager.getWorld().addWall(right);
 	    	}
@@ -115,7 +120,11 @@ public class EnvironmentalParser extends Parser{
 		wall_width  = myEngine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
 		wall_height = myEngine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
 	}
-
+	
+	public void setWallRepulsionForceToggle(int id){
+		myWallRepulsionForces[id] = !myWallRepulsionForces[id];
+	}
+	
 	public void makeNewWalls(double newMargin){
 		wall_margin+=newMargin;
 		setWallDimensions();

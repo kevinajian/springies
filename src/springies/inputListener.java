@@ -28,11 +28,9 @@ public class InputListener{
 			WorldManager.getWorld().clearAssemblies();
 			myEngine.clearKey(KeyEvent.VK_C);
 		}
-		
 		// toggle forces
 		if (myEngine.getKey(KeyEvent.VK_G)){
 			Gravity.toggleForce();
-			//System.out.println("nothing");
 			myEngine.clearKey(KeyEvent.VK_G);
 		}
 		if (myEngine.getKey(KeyEvent.VK_V)){
@@ -45,30 +43,32 @@ public class InputListener{
 		}
 		if (myEngine.getKey(KeyEvent.VK_1)){
 			Wall currWall = myParser.getWall("1");
-			//System.out.println(currWall.getName());
 			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 			currWallRepulsionForce.toggleForce();
+			myParser.setWallRepulsionForceToggle(1);
 			myEngine.clearKey(KeyEvent.VK_1);
 		}
 		if (myEngine.getKey(KeyEvent.VK_2)){
 			Wall currWall = myParser.getWall("2");
 			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 			currWallRepulsionForce.toggleForce();
+			myParser.setWallRepulsionForceToggle(1);
 			myEngine.clearKey(KeyEvent.VK_2);
 		}
 		if (myEngine.getKey(KeyEvent.VK_3)){
 			Wall currWall = myParser.getWall("3");
 			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 			currWallRepulsionForce.toggleForce();
+			myParser.setWallRepulsionForceToggle(2);
 			myEngine.clearKey(KeyEvent.VK_3);
 		}
 		if (myEngine.getKey(KeyEvent.VK_4)){
 			Wall currWall = myParser.getWall("4");
 			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 			currWallRepulsionForce.toggleForce();
+			myParser.setWallRepulsionForceToggle(3);
 			myEngine.clearKey(KeyEvent.VK_4);
 		}
-		
 		// change the walled size area
 		if (myEngine.getKey(KeyEvent.VK_DOWN)){
 			double newMargin = -10;
