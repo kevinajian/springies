@@ -10,7 +10,7 @@ import jgame.JGObject;
 
 public class Mass extends PhysicalObjectCircle{
 	private static final int RADIUS = 5;
-	private static final double DEFAULT_MASS = 5;
+	public static final double DEFAULT_MASS = 5;
 	public static final float INITIAL_X_VELOCITY = 0;
 	public static final float INITIAL_Y_VELOCITY = 0;
 	public static final JGColor COLOR = JGColor.blue;

@@ -5,10 +5,10 @@ import jgame.JGColor;
 
 public class Muscle extends PhysicalSpring {
 	public static final JGColor COLOR = JGColor.black;
-	protected static final float DEFAULT_RESTLENGTH = 20;
-	protected static final float DEFAULT_SPRINGYNESS = 1;
-	protected static final float DEFAULT_AMPLITUDE = 1;
-	protected static final float DEFAULT_FREQUENCY = 20;
+	public static final float DEFAULT_RESTLENGTH = 20;
+	public static final float DEFAULT_SPRINGYNESS = 1;
+	public static final float DEFAULT_AMPLITUDE = 1;
+	public static final float DEFAULT_FREQUENCY = 20;
 
 	public float myRestLength;
 	public float mySpringyness;

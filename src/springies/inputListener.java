@@ -1,5 +1,6 @@
 package springies;
 import input.AssemblyLoaderDialog;
+//import org.lwjgl.input.Keyboard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +9,8 @@ import objects.wall.*;
 import externalForces.*;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
+
+
 
 public class InputListener{
 	private JGEngine myEngine;
@@ -18,68 +21,68 @@ public class InputListener{
 		myParser = parser;
 	}
 	
-	public void checkForInput(){
+	public void keyAction(){//KeyEvent e){
 		// checks to create / clear assemblies
-		if(myEngine.getKey(KeyEvent.VK_N)){
+		if(getKey(KeyEvent.VK_N)){
 			new AssemblyLoaderDialog((Springies) myEngine);
 			myEngine.clearKey(KeyEvent.VK_N);
 		}
-		if(myEngine.getKey(KeyEvent.VK_C)){
+		if(getKey(KeyEvent.VK_C)){
 			WorldManager.getWorld().clearAssemblies();
 			myEngine.clearKey(KeyEvent.VK_C);
 		}
 		// toggle forces
-		if (myEngine.getKey(KeyEvent.VK_G)){
+		if (getKey(KeyEvent.VK_G)){
 			Gravity.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_G);
 		}
-		if (myEngine.getKey(KeyEvent.VK_V)){
+		if (getKey(KeyEvent.VK_V)){
 			Viscosity.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_V);
 		}
-		if (myEngine.getKey(KeyEvent.VK_M)){
+		if (getKey(KeyEvent.VK_M)){
 			CenterOfMass.toggleForce();
 			myEngine.clearKey(KeyEvent.VK_M);
 		}
-		if (myEngine.getKey(KeyEvent.VK_1)){
-			Wall currWall = myParser.getWall("1");
-			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
-			currWallRepulsionForce.toggleForce();
-			myParser.setWallRepulsionForceToggle(1);
+		if (getKey(KeyEvent.VK_1)){
+			WallForceToggle("1");
 			myEngine.clearKey(KeyEvent.VK_1);
 		}
-		if (myEngine.getKey(KeyEvent.VK_2)){
-			Wall currWall = myParser.getWall("2");
-			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
-			currWallRepulsionForce.toggleForce();
-			myParser.setWallRepulsionForceToggle(1);
+		if (getKey(KeyEvent.VK_2)){
+			WallForceToggle("2");
 			myEngine.clearKey(KeyEvent.VK_2);
 		}
-		if (myEngine.getKey(KeyEvent.VK_3)){
-			Wall currWall = myParser.getWall("3");
-			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
-			currWallRepulsionForce.toggleForce();
-			myParser.setWallRepulsionForceToggle(2);
+		if (getKey(KeyEvent.VK_3)){
+			WallForceToggle("3");
 			myEngine.clearKey(KeyEvent.VK_3);
 		}
-		if (myEngine.getKey(KeyEvent.VK_4)){
-			Wall currWall = myParser.getWall("4");
-			WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
-			currWallRepulsionForce.toggleForce();
-			myParser.setWallRepulsionForceToggle(3);
+		if (getKey(KeyEvent.VK_4)){
+			WallForceToggle("4");
 			myEngine.clearKey(KeyEvent.VK_4);
 		}
 		// change the walled size area
-		if (myEngine.getKey(KeyEvent.VK_DOWN)){
+		if (getKey(KeyEvent.VK_DOWN)){
 			double newMargin = -10;
 			makeNewWalls(newMargin);
 			myEngine.clearKey(KeyEvent.VK_DOWN);
 		}
-		if (myEngine.getKey(KeyEvent.VK_UP)){
+		if (getKey(KeyEvent.VK_UP)){
 			double newMargin = 10;
 			makeNewWalls(newMargin);
 			myEngine.clearKey(KeyEvent.VK_UP);
 		}
+		
+	}
+	
+	private boolean getKey(int keyCode){
+		return myEngine.getKey(keyCode);
+	}
+	
+	private void WallForceToggle(String id){
+		Wall currWall = myParser.getWall(id);
+		WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
+		currWallRepulsionForce.toggleForce();
+		myParser.setWallRepulsionForceToggle(Integer.parseInt(id)-1);
 	}
 	
 	public void makeNewWalls(double newMargin){

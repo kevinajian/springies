@@ -54,7 +54,7 @@ public class AssemblyParser extends Parser{
 	}
 	
 	private Map<String, Mass> createMasses(NodeList masses, float gameHeight, boolean isFixed){
-		String id; int cID = 1; double x, y, mass=1; float xVel=0, yVel=0; // defaults
+		String id; int cID = 1; double x, y, mass=Mass.DEFAULT_MASS; float xVel=Mass.INITIAL_X_VELOCITY, yVel=Mass.INITIAL_Y_VELOCITY; // defaults
 		HashMap<String, Mass> massMap = new HashMap<String, Mass>();
 		for (int i=0; i<masses.getLength(); i++){
 			Node currMassObject = masses.item(i);
@@ -78,7 +78,7 @@ public class AssemblyParser extends Parser{
 	}
 	  
 	private List<PhysicalSpring> createMusclesAndSprings(NodeList musclesAndSprings, Map<String, Mass> massMap){
-		String id; int cID = 2; float k = 1, length = 0, amplitude, frequency = 20; Mass massA, massB; // defaults
+		String id; int cID = 2; float k = Muscle.DEFAULT_SPRINGYNESS, length = Muscle.DEFAULT_RESTLENGTH, amplitude = Muscle.DEFAULT_AMPLITUDE, frequency = Muscle.DEFAULT_FREQUENCY; Mass massA, massB; // defaults
 	    
 		
 		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();

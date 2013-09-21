@@ -81,7 +81,8 @@ public class Springies extends JGEngine
 		frame++;
 		//TODO: Fix input key listener
 		InputListener inputListener = new InputListener((this), myEnvironmentParser);
-		inputListener.checkForInput();
+		//inputListener.checkForInput();
+		inputListener.keyAction();
 
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
