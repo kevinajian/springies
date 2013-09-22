@@ -1,8 +1,11 @@
  package jboxGlue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import jgame.JGObject;
 
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
@@ -13,14 +16,15 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import externalForces.Force;
 import externalForces.FixedForce;
 import externalForces.Gravity;
-
 import objects.Assembly;
 import objects.Mass;
 import objects.Spring;
+import objects.wall.Wall;
 
 public class CustomWorld extends World {
 	private List<Force> myForces = new ArrayList<Force>();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
+	private List<Wall> myWalls = new ArrayList<Wall>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
@@ -56,7 +60,6 @@ public class CustomWorld extends World {
 		return springs.toArray(new PhysicalSpring[0]);
 	}
 	
-	
 	public void addAssembly(Assembly assembly){
 		myAssemblies.add(assembly);
 	}
@@ -64,6 +67,16 @@ public class CustomWorld extends World {
 	public void addForce(Force force){
 		myForces.add(force);
 	}
+	
+	public void addWall(Wall wall){
+		myWalls.add(wall);
+	}
+	
+	/*
+	public List<Force> getForces(){
+		return forces;
+	}
+	*/
 	
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
@@ -93,8 +106,10 @@ public class CustomWorld extends World {
 	public void applyEnvironmentalForces(){
 		Mass[] masses = getMasses();
 		for(Force force : myForces){
-			for(Mass mass : getMasses()){
-				force.applyForceToObject(mass);
+			if (force.shouldApply()){
+				for(Mass mass : getMasses()){
+					force.applyForceToObject(mass);
+				}
 			}
 		}
 	}
@@ -108,7 +123,7 @@ public class CustomWorld extends World {
 			mass.remove();
 		myAssemblies.clear();
 	}
-	
+		
 	public Mass findClosestMass(Mass m){
 		Mass[] masses = getMasses();
 		if(masses.length==0)return null;
@@ -125,4 +140,9 @@ public class CustomWorld extends World {
 		return closestMass;
 	}
 
+	public void clearWalls(){
+	for (Wall wall: myWalls){
+		wall.remove();
+		}
+	}
 }

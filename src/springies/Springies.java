@@ -72,6 +72,7 @@ public class Springies extends JGEngine
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 		
 		myMouseListener = new MouseListener(this);
+
 	}
 	
 	boolean lastWasClicked = false;
@@ -91,6 +92,9 @@ public class Springies extends JGEngine
 			clearKey('N');
 		}
 		myMouseListener.listen();
+		//InputListener inputListener = new InputListener((this), myEnvironmentParser);
+		//inputListener.checkForInput();
+
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -115,8 +119,8 @@ public class Springies extends JGEngine
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
-			Parser environmentParser = new EnvironmentalParser(environment, this);
-			environmentParser.parse();		
+			EnvironmentalParser environmentParser = new EnvironmentalParser(environment, this);
+				environmentParser.parse();	
 		}
 	}
 	

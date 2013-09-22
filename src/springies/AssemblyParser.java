@@ -100,7 +100,7 @@ public class AssemblyParser extends Parser{
 	    	}
 	    	else {
 	    		id = "spring";
-	    		spring = new Spring(id, cID, massA, massB, length, k);
+	    		spring = new Spring(id, cID, massA, massB, length, 12);
 	    		springs.add(spring);
 	    	}
 	    }

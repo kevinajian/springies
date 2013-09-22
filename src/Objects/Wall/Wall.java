@@ -35,6 +35,10 @@ public abstract class Wall extends PhysicalObjectRect {
 		myForce = rep;
 	}
 	
+	public WallRepulsion getRepulsionForce(){
+		return (WallRepulsion) myForce;
+	}
+	
 	
 	@Override
 	public void move( )
