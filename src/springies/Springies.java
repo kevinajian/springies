@@ -45,7 +45,7 @@ public class Springies extends JGEngine
 	{
 		// set the window size
 		int height = 700;
-		double aspect = 16.0/9.0; //@Tyler - aspect-ratio for screen
+		double aspect = 16.0/9.0; 
 		initEngine( (int)(height*aspect), height ); 
 	}
 	
@@ -69,11 +69,8 @@ public class Springies extends JGEngine
 		setFrameRate( 60, 2 );
 		
 		WorldManager.initWorld( this );
-		//WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
 		
-		// set environment and world forces
 		setupEnvironment();
-		// create objects from data
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 		
 		myMouseListener = new MouseListener(this);
@@ -87,13 +84,9 @@ public class Springies extends JGEngine
 	public void doFrame( )
 	{
 		frame++;
-		//TODO: Fix input key listener
 		InputListener inputListener = new InputListener((this));
-		//inputListener.checkForInput();
 		inputListener.listen();
 		myMouseListener.listen();
-		//InputListener inputListener = new InputListener((this), myEnvironmentParser);
-		//inputListener.checkForInput();
 		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
@@ -127,7 +120,6 @@ public class Springies extends JGEngine
 	@Override
 	public void paintFrame( )
 	{
-		// nothing to do
-		// the objects paint themselves
+
 	}
 }
