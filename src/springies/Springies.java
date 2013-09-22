@@ -44,7 +44,7 @@ public class Springies extends JGEngine
 	public Springies( )
 	{
 		// set the window size
-		int height = 800;
+		int height = 700;
 		double aspect = 16.0/9.0; //@Tyler - aspect-ratio for screen
 		initEngine( (int)(height*aspect), height ); 
 	}
