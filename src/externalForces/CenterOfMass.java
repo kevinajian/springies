@@ -7,6 +7,8 @@ import org.jbox2d.common.Vec2;
 
 public class CenterOfMass extends Force{
 	private float myMagnitude;
+	private static boolean forceIsOn = true;
+	
 	public CenterOfMass(float magnitude, float exponent){
 		super(new Vec2(), exponent);
 		myMagnitude = magnitude;
@@ -14,6 +16,8 @@ public class CenterOfMass extends Force{
 
 	@Override
 	public void applyForceToObject(PhysicalObject obj){
+		if(!forceIsOn) 
+			return;
 		Vec2 center = WorldManager.getWorld().getCenterOfMass();
 		Vec2 position = obj.getPosition();
 		float distance = distance(center, position);
@@ -38,5 +42,9 @@ public class CenterOfMass extends Force{
 		
 		float dy = one.y - two.y;
 		return (float) Math.sqrt(dx*dx+dy*dy);
+	}
+
+	public static void toggleForce() {
+		forceIsOn = !forceIsOn;
 	}
 }

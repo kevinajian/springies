@@ -1,6 +1,8 @@
 package springies;
 
 import input.AssemblyLoaderDialog;
+import input.InputListener;
+import input.MouseListener;
 
 import java.io.File;
 
@@ -27,6 +29,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import parser.AssemblyParser;
+import parser.EnvironmentalParser;
+import parser.Parser;
+
 @SuppressWarnings( "serial" )
 public class Springies extends JGEngine
 {
@@ -34,8 +40,7 @@ public class Springies extends JGEngine
 	private static final String xmlDir = "assets";
 	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
 	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
-	private EnvironmentalParser myEnvironmentParser;
-
+	private MouseListener myMouseListener;
 	public Springies( )
 	{
 		// set the window size
@@ -71,19 +76,25 @@ public class Springies extends JGEngine
 		// create objects from data
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 		
-		// make key listener
-		//InputListener inputListener = new InputListener();
+		myMouseListener = new MouseListener(this);
+
 	}
 	
+	boolean lastWasClicked = false;
+	Spring userSpring;
+	MouseMass userMass;
 	@Override
 	public void doFrame( )
 	{
 		frame++;
 		//TODO: Fix input key listener
-		InputListener inputListener = new InputListener((this), myEnvironmentParser);
+		InputListener inputListener = new InputListener((this));
 		//inputListener.checkForInput();
-		inputListener.keyAction();
-
+		inputListener.listen();
+		myMouseListener.listen();
+		//InputListener inputListener = new InputListener((this), myEnvironmentParser);
+		//inputListener.checkForInput();
+		
 		WorldManager.getWorld().step( 1f, 1 );
 		WorldManager.getWorld().applyEnvironmentalForces();
 		moveObjects();
@@ -108,8 +119,8 @@ public class Springies extends JGEngine
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
-			myEnvironmentParser = new EnvironmentalParser(environment, this);
-			myEnvironmentParser.parse();	
+			EnvironmentalParser environmentParser = new EnvironmentalParser(environment, this);
+				environmentParser.parse();	
 		}
 	}
 	

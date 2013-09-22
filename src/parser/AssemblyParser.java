@@ -1,4 +1,4 @@
-package springies;
+package parser;
 import jboxGlue.*;
 import jgame.JGColor;
 import jgame.platform.JGEngine;
@@ -54,23 +54,26 @@ public class AssemblyParser extends Parser{
 	}
 	
 	private Map<String, Mass> createMasses(NodeList masses, float gameHeight, boolean isFixed){
-		String id; int cID = 1; double x, y, mass=Mass.DEFAULT_MASS; float xVel=Mass.INITIAL_X_VELOCITY, yVel=Mass.INITIAL_Y_VELOCITY; // defaults
 		HashMap<String, Mass> massMap = new HashMap<String, Mass>();
 		for (int i=0; i<masses.getLength(); i++){
+			 
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
-			id = currMassAttr.getNamedItem("id").getNodeValue();
-			x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
-			y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
+			String id = currMassAttr.getNamedItem("id").getNodeValue();
+			double x = Double.parseDouble(currMassAttr.getNamedItem("x").getNodeValue());
+			double y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem("y").getNodeValue());
 			if (isFixed){
-				FixedMass massObject =  new FixedMass(id,cID,x,y);
+				FixedMass massObject =  new FixedMass(id,Mass.DEFAULT_CID,x,y);
 				massMap.put(id, massObject);
 			}
 			else {
+				double mass=Mass.DEFAULT_MASS;
 				if (hasAttribute(currMassAttr,"mass")) mass = Double.parseDouble(currMassAttr.getNamedItem("mass").getNodeValue());
+				 float xVel=Mass.INITIAL_X_VELOCITY;
 				if (hasAttribute(currMassAttr,"vx")) xVel = Float.parseFloat(currMassAttr.getNamedItem("vx").getNodeValue()); 
+				float yVel=Mass.INITIAL_Y_VELOCITY;
 				if (hasAttribute(currMassAttr,"vy")) yVel = Float.parseFloat(currMassAttr.getNamedItem("vy").getNodeValue());
-				Mass massObject = new Mass(id,cID,x,y,mass,xVel,yVel);
+				Mass massObject = new Mass(id,Mass.DEFAULT_CID,x,y,mass,xVel,yVel);
 				massMap.put(id, massObject);
 			}
 		}
@@ -100,7 +103,7 @@ public class AssemblyParser extends Parser{
 	    	}
 	    	else {
 	    		id = "spring";
-	    		spring = new Spring(id, cID, massA, massB, length, 12);
+	    		spring = new Spring(id, cID, massA, massB, length, k);
 	    		springs.add(spring);
 	    	}
 	    }

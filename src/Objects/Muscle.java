@@ -4,11 +4,12 @@ import jboxGlue.PhysicalSpring;
 import jgame.JGColor;
 
 public class Muscle extends PhysicalSpring {
-	private static final JGColor COLOR = JGColor.black;
+	private static final JGColor DEFAULT_COLOR = JGColor.black;
 	public static final float DEFAULT_RESTLENGTH = 20;
 	public static final float DEFAULT_SPRINGYNESS = 1;
 	public static final float DEFAULT_AMPLITUDE = 1;
 	public static final float DEFAULT_FREQUENCY = 20;
+
 
 	public float myRestLength;
 	public float mySpringyness;
@@ -21,7 +22,7 @@ public class Muscle extends PhysicalSpring {
 	
 	public Muscle( String name, int collisionId, Mass body1, Mass body2, 
 					float restLength, float springyness, float amplitude, float frequency) {
-		super(name, 3, COLOR, body1, body2);
+		super(name, 3, DEFAULT_COLOR, body1, body2);
 		myRestLength = restLength;
 		mySpringyness = springyness;
 		myAmplitude = amplitude;

@@ -1,4 +1,4 @@
-package springies;
+package parser;
 
 import java.io.File;
 import java.util.*;
@@ -25,10 +25,9 @@ public class EnvironmentalParser extends Parser{
 	private double wall_width; 
 	private double wall_height;
 	private JGEngine myEngine;
-	private HashMap myWalls = new HashMap();
 	private boolean[] myWallRepulsionForces = new boolean[]{true, true, true, true};
 
-	protected EnvironmentalParser(File file, JGEngine engine) {
+	public EnvironmentalParser(File file, JGEngine engine) {
 		super(file, engine);
 		myEngine = engine;
 		wall_width  = engine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
@@ -72,9 +71,6 @@ public class EnvironmentalParser extends Parser{
 	    }
 	}
 	
-	public Wall getWall(String id){
-		return (Wall) myWalls.get(id);
-	}
 
 	private void setWalls(NodeList walls){
 	    for(int i=0; i<walls.getLength(); i++){
@@ -86,32 +82,28 @@ public class EnvironmentalParser extends Parser{
 	    		ceiling.setPos(myEngine.displayWidth()/2, wall_margin);
 	    		ceiling.setRepulsionForce(magnitude,exponent);
 	    		if (!myWallRepulsionForces[0]) ceiling.getRepulsionForce().toggleForce();
-	    		myWalls.put(id, ceiling);
-	    		WorldManager.getWorld().addWall(ceiling);
+	    		WorldManager.getWorld().addWall(id, ceiling);
 	    	}
 	    	else if (id.equals("2")){
 	    		Wall floor = new BottomWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 				floor.setPos(myEngine.displayWidth()/2, myEngine.displayHeight() - wall_margin);
 				floor.setRepulsionForce(magnitude,exponent);
 				if (!myWallRepulsionForces[2]) floor.getRepulsionForce().toggleForce();
-				myWalls.put(id, floor);
-				WorldManager.getWorld().addWall(floor);
+				WorldManager.getWorld().addWall(id, floor);
 	    	}
 	    	else if (id.equals("3")){
 	    		Wall left = new LeftWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		left.setPos(wall_margin, myEngine.displayHeight()/2);
 	    		left.setRepulsionForce(magnitude,exponent);
 	    		if (!myWallRepulsionForces[3]) left.getRepulsionForce().toggleForce();
-	    		myWalls.put(id, left);
-	    		WorldManager.getWorld().addWall(left);
+	    		WorldManager.getWorld().addWall(id, left);
 	    	}
 	    	else if (id.equals("4")){
 	    		Wall right = new RightWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		right.setPos(myEngine.displayWidth()-wall_margin, myEngine.displayHeight()/2);
 	    		right.setRepulsionForce(magnitude,exponent);
 	    		if (!myWallRepulsionForces[3]) right.getRepulsionForce().toggleForce();
-	    		myWalls.put(id, right);
-	    		WorldManager.getWorld().addWall(right);
+	    		WorldManager.getWorld().addWall(id, right);
 	    	}
 	    }
 	}

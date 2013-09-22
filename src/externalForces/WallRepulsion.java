@@ -9,6 +9,7 @@ import jboxGlue.WorldManager;
 
 public class WallRepulsion extends Force {
 	private Wall myWall;
+	private  boolean forceIsOn = true;
 	public WallRepulsion(float magnitude, Vec2 unitDirection, float exponent, Wall wall) {
 		this(unitDirection.mul(magnitude), exponent, wall);
 	}
@@ -19,6 +20,9 @@ public class WallRepulsion extends Force {
 	}
 	
 	public void applyForceToObject(PhysicalObject obj) {
+		if(!forceIsOn)
+			return; 
+		
 		float distanceFromWallToObject = myWall.calculateDistance(obj);
 		float proportionalMagnitude = (float)((Math.pow(distanceFromWallToObject, myExponent)));
 		Vec2 forceToApply =  myForce.mul((float)(1.0/proportionalMagnitude));
@@ -27,5 +31,9 @@ public class WallRepulsion extends Force {
 	
 	public String toString(){
 		return getForce().toString();
+	}
+
+	public void toggleWallForce() {
+		forceIsOn = !forceIsOn;
 	}
 }

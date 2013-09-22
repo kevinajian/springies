@@ -14,7 +14,7 @@ public class Mass extends PhysicalObjectCircle{
 	public static final float INITIAL_X_VELOCITY = 0;
 	public static final float INITIAL_Y_VELOCITY = 0;
 	public static final JGColor COLOR = JGColor.blue;
-
+	public static final int DEFAULT_CID = 1;
 	public Mass(String id, int collisionId, double x, double y){
 		this(id, collisionId, x, y, DEFAULT_MASS);
 	}

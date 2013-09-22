@@ -4,7 +4,7 @@ import jboxGlue.PhysicalObject;
 
 import org.jbox2d.common.Vec2;
 
-public class FixedForce extends Force {
+public abstract class FixedForce extends Force {
 	public FixedForce(float magnitude, Vec2 unitDirection){
 		this(unitDirection.mul(magnitude));
 	}
@@ -20,4 +20,5 @@ public class FixedForce extends Force {
 	public Vec2 getForceToApply(){
 		return getForce();
 	}
+
 }

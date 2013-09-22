@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jgame.JGObject;
 
@@ -24,7 +25,7 @@ import objects.wall.Wall;
 public class CustomWorld extends World {
 	private List<Force> myForces = new ArrayList<Force>();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
-	private List<Wall> myWalls = new ArrayList<Wall>();
+	private Map<String, Wall> myWalls = new HashMap<String, Wall>();
 	
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
@@ -68,8 +69,8 @@ public class CustomWorld extends World {
 		myForces.add(force);
 	}
 	
-	public void addWall(Wall wall){
-		myWalls.add(wall);
+	public void addWall(String id, Wall wall){
+		myWalls.put(id, wall);
 	}
 	
 	/*
@@ -103,13 +104,11 @@ public class CustomWorld extends World {
 		return totalMass;
 	}
 	
-	public void applyEnvironmentalForces(){
+	public void applyEnvironmentalForces() {
 		Mass[] masses = getMasses();
-		for(Force force : myForces){
-			if (force.shouldApply()){
-				for(Mass mass : getMasses()){
-					force.applyForceToObject(mass);
-				}
+		for (Force force : myForces) {
+			for (Mass mass : getMasses()) {
+				force.applyForceToObject(mass);
 			}
 		}
 	}
@@ -123,16 +122,32 @@ public class CustomWorld extends World {
 			mass.remove();
 		myAssemblies.clear();
 	}
+		
+	public Mass findClosestMass(Mass m){
+		Mass[] masses = getMasses();
+		if(masses.length==0)return null;
+		Mass closestMass = masses[0];
+		float minDistance = Integer.MAX_VALUE;
+		
+		for(Mass mass : masses){
+			float distance = mass.distance(m);
+			if(distance < minDistance){
+				minDistance = distance;
+				closestMass = mass;
+			}
+		}
+		return closestMass;
+	}
+	
+	public Wall getWall(String id){
+		return myWalls.get(id);
+	}
+
+	
 	public void clearWalls(){
-		for (Wall wall: myWalls){
+		Wall[] walls  = myWalls.values().toArray(new Wall[0]);
+		for (Wall wall: walls){
 			wall.remove();
 		}
 	}
-	/*
-	public void clearWall(String id){
-		if (myWalls.containsKey(id))
-			((Wall) myWalls.get(id)).remove();
-			myWalls.remove(id);
-	}
-	*/
 }
