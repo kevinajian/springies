@@ -1,6 +1,7 @@
 package objects;
 
 import org.jbox2d.common.Vec2;
+
 import org.jbox2d.dynamics.Body;
 
 import jboxGlue.PhysicalSpring;
@@ -8,6 +9,8 @@ import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.JGObject;
 import jgame.JGColor;
+
+
 public class Spring extends Muscle {
 	public static final JGColor COLOR = JGColor.black;
 	

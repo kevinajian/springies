@@ -81,28 +81,28 @@ public class EnvironmentalParser extends Parser{
 	    		Wall ceiling = new TopWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 	    		ceiling.setPos(myEngine.displayWidth()/2, wall_margin);
 	    		ceiling.setRepulsionForce(magnitude,exponent);
-	    		if (!myWallRepulsionForces[0]) ceiling.getRepulsionForce().toggleForce();
+	    		if (!myWallRepulsionForces[0]) ceiling.getRepulsionForce().toggleWallForce();
 	    		WorldManager.getWorld().addWall(id, ceiling);
 	    	}
 	    	else if (id.equals("2")){
 	    		Wall floor = new BottomWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 				floor.setPos(myEngine.displayWidth()/2, myEngine.displayHeight() - wall_margin);
 				floor.setRepulsionForce(magnitude,exponent);
-				if (!myWallRepulsionForces[2]) floor.getRepulsionForce().toggleForce();
+				if (!myWallRepulsionForces[2]) floor.getRepulsionForce().toggleWallForce();
 				WorldManager.getWorld().addWall(id, floor);
 	    	}
 	    	else if (id.equals("3")){
 	    		Wall left = new LeftWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		left.setPos(wall_margin, myEngine.displayHeight()/2);
 	    		left.setRepulsionForce(magnitude,exponent);
-	    		if (!myWallRepulsionForces[3]) left.getRepulsionForce().toggleForce();
+	    		if (!myWallRepulsionForces[3]) left.getRepulsionForce().toggleWallForce();
 	    		WorldManager.getWorld().addWall(id, left);
 	    	}
 	    	else if (id.equals("4")){
 	    		Wall right = new RightWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		right.setPos(myEngine.displayWidth()-wall_margin, myEngine.displayHeight()/2);
 	    		right.setRepulsionForce(magnitude,exponent);
-	    		if (!myWallRepulsionForces[3]) right.getRepulsionForce().toggleForce();
+	    		if (!myWallRepulsionForces[3]) right.getRepulsionForce().toggleWallForce();
 	    		WorldManager.getWorld().addWall(id, right);
 	    	}
 	    }

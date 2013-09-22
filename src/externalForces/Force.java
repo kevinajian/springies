@@ -4,6 +4,10 @@ import jboxGlue.PhysicalObject;
 
 import org.jbox2d.common.Vec2;
 
+/**
+ * Base class for all Forces
+ * @author tylernisonoff
+ */
 public abstract class Force {
 	protected Vec2 myForce;
 	protected float myExponent;

@@ -5,10 +5,20 @@ import jboxGlue.WorldManager;
 
 import org.jbox2d.common.Vec2;
 
+/**
+ * Center of mass force for world
+ * @author tylernisonoff
+ *
+ */
 public class CenterOfMass extends Force{
 	private float myMagnitude;
 	private static boolean forceIsOn = true;
 	
+	
+	/**
+	 * @param magnitude - the magnitude of the force to be applied
+	 * @param exponent - see Force javadoc
+	 */
 	public CenterOfMass(float magnitude, float exponent){
 		super(new Vec2(), exponent);
 		myMagnitude = magnitude;
