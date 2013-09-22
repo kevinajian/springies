@@ -39,24 +39,6 @@ public abstract class PhysicalSpring extends JGObject {
 		myBody2 = body2;
 	}
 	
-	protected void createJoint( Body body1, Body body2 )
-	{
-//		DistanceJointDef definition = new DistanceJointDef();
-//		definition.initialize(body1, body2, new Vec2(0,0), new Vec2(0,0));
-//		definition.dampingRatio=(float).0;
-//		definition.collideConnected=false;
-//		definition.length = (float)(3.0);
-//		World world = WorldManager.getWorld();
-//		myJoint = (DistanceJoint)world.createJoint( definition);
-//		myJoint.setUserData( this ); // for following body back to JGObject
-//		myJoint.getBody1().m_world = WorldManager.getWorld();
-//	}
-//	
-//	public Joint getJoint( )
-//	{
-//		return myJoint;
-//
-	}
 	
 	public JGColor getColor( )
 	{
@@ -86,8 +68,6 @@ public abstract class PhysicalSpring extends JGObject {
 		myBody2.applyForce(directionToApplyForce.mul(force));
 	}
 	
-	//will return a normalized vector with from the body2's position
-	// vector - body1's
 	public Vec2 directionToApplyForce(Mass body1, Mass body2){
 		Vec2 directionToApply = myBody2.getBody().getPosition().sub(myBody1.getBody().getPosition());
 		directionToApply.normalize();
