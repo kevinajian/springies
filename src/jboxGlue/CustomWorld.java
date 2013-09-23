@@ -22,15 +22,33 @@ import objects.Mass;
 import objects.Spring;
 import objects.wall.Wall;
 
+/**
+ * A wrapper around Jbox World to include the assemblies, walls, and forces
+ * 
+ * @author tylernisonoff
+ *
+ */
 public class CustomWorld extends World {
 	private List<Force> myForces = new ArrayList<Force>();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
 	private Map<String, Wall> myWalls = new HashMap<String, Wall>();
 	
+	/**
+	 * 
+	 * @param worldAABB - Bounding box for the world
+	 * @param gravity - Default gravity for JBox
+	 * @param doSleep - JBox doSleep param
+	 */
 	public CustomWorld(AABB worldAABB, Vec2 gravity, boolean doSleep) {
 		super(worldAABB, gravity, doSleep);
 	}
 	
+	
+	/**
+	 * 
+	 * @param id - id of the mass
+	 * @return - the mass associated with that id
+	 */
 	public Mass getMass(String id){
 		for(Assembly assembly : myAssemblies){
 			if(assembly.getMassesMap().get(id) != null)
@@ -38,13 +56,11 @@ public class CustomWorld extends World {
 		}
 		return null;
 	}
-
-	/*TODO: REFACTOR TO ALLOW THIS METHOD
-	public PhysicalSpring getSpring(String id){
-		return mySprings.get(id);
-	}
-	*/
 	
+	/**
+	 * 
+	 * @return List of masses in the world
+	 */
 	public Mass[] getMasses(){
 		List<Mass> masses = new ArrayList<Mass>();
 		for(Assembly assembly : myAssemblies){
@@ -53,6 +69,10 @@ public class CustomWorld extends World {
 		return masses.toArray(new Mass[0]);
 	}
 	
+	/**
+	 * 
+	 * @return List of Springs in the world
+	 */
 	public PhysicalSpring[] getSprings(){
 		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();
 		for(Assembly assembly : myAssemblies){
@@ -61,24 +81,35 @@ public class CustomWorld extends World {
 		return springs.toArray(new PhysicalSpring[0]);
 	}
 	
+	/**
+	 *  Adds an assembly to the world
+	 * @param assembly - Assembly to be added
+	 */
 	public void addAssembly(Assembly assembly){
 		myAssemblies.add(assembly);
 	}
 	
+	/**
+	 *  Adds a Force to the world
+	 * @param force - Force to be added
+	 */
 	public void addForce(Force force){
 		myForces.add(force);
 	}
 	
+	/**
+	 *  Adds a wall to the world
+	 * @param id - id of the wall
+	 * @param wall - wall to be added
+	 */
 	public void addWall(String id, Wall wall){
 		myWalls.put(id, wall);
 	}
 	
-	/*
-	public List<Force> getForces(){
-		return forces;
-	}
-	*/
-	
+	/**
+	 * Calculates the center of mass of the world based on the masses
+	 * @return A vector of the location of the center of mass
+	 */
 	public Vec2 getCenterOfMass(){
 		if(getMasses().length == 0) 
 			return new Vec2();
@@ -96,6 +127,10 @@ public class CustomWorld extends World {
 		return centerPosition;
 	}
 	
+	/**
+	 * 
+	 * @return Total Mass in the world
+	 */
 	private float getTotalMassOfSystem(){
 		float totalMass = 0;
 		for(Mass mass : getMasses()){
@@ -104,6 +139,9 @@ public class CustomWorld extends World {
 		return totalMass;
 	}
 	
+	/**
+	 * Method called to apply forces set in the world to the masses
+	 */
 	public void applyEnvironmentalForces() {
 		Mass[] masses = getMasses();
 		for (Force force : myForces) {
@@ -113,6 +151,9 @@ public class CustomWorld extends World {
 		}
 	}
 	
+	/**
+	 * Deletes all of the assemblies in the world 
+	 */
 	public void clearAssemblies(){
 		PhysicalSpring[] springs = getSprings();
 		for(PhysicalSpring spring : springs)
@@ -123,6 +164,12 @@ public class CustomWorld extends World {
 		myAssemblies.clear();
 	}
 		
+	/**
+	 * Finds the closest mass to another mass
+	 * Used by the mouse for user interaction
+	 * @param m - mass who we want to find its nearest neighbor
+	 * @return - the mass who is closest
+	 */
 	public Mass findClosestMass(Mass m){
 		Mass[] masses = getMasses();
 		if(masses.length==0)return null;
@@ -139,11 +186,18 @@ public class CustomWorld extends World {
 		return closestMass;
 	}
 	
+	/**
+	 * 
+	 * @param id - Walls id
+	 * @return - Wall with that id
+	 */
 	public Wall getWall(String id){
 		return myWalls.get(id);
 	}
 
-	
+	/**
+	 * Clears all of the walls from the world
+	 */
 	public void clearWalls(){
 		Wall[] walls  = myWalls.values().toArray(new Wall[0]);
 		for (Wall wall: walls){
