@@ -56,6 +56,7 @@ public abstract class Wall extends PhysicalObjectRect {
 	}
 	
 	public abstract float calculateDistance(PhysicalObject object);
+	
 	protected abstract void setUnitVector();
 
 }

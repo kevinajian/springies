@@ -47,18 +47,34 @@ public class Muscle extends PhysicalSpring {
 		myFrequency = frequency;
 	}
 	
+	/**
+	 * 
+	 * @param length restlength to set
+	 */
 	public void setRestLength(float length){
 		myRestLength = length;
 	}
 	
+	/**
+	 * 
+	 * @param k springyness to set
+	 */
 	public void setSpringyness(float k){
 		mySpringyness = k;
 	}
 	
+	/**
+	 * 
+	 * @param amplitude amplitude to set
+	 */
 	public void setAmplitude(float amplitude){
 		myAmplitude = amplitude;
 	}
 	
+	/**
+	 * 
+	 * @param frequency frequency to set
+	 */
 	public void setFrequency(float frequency){
 		myFrequency = frequency;
 	}
