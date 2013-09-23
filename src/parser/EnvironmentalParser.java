@@ -47,10 +47,10 @@ public class EnvironmentalParser extends Parser{
 	 */
 	@Override
 	public void parse() {
-		setGravity(myDocument.getElementsByTagName(Attributes.GRAVITY_ELEMENT));
+		setGravity(myDocument.getElementsByTagName(Constants.GRAVITY_ELEMENT));
 		//setViscosity(myDocument.getElementsByTagName(Attributes.VISCOSITY_ELEMENT));
 		//setCenterMass(myDocument.getElementsByTagName(Attributes.CENTER_OF_MASS_ELEMENT));
-		setWalls(myDocument.getElementsByTagName(Attributes.WALL_ELEMENT));
+		setWalls(myDocument.getElementsByTagName(Constants.WALL_ELEMENT));
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class EnvironmentalParser extends Parser{
 	 * @param gravity - NodeList of the gravity element in the data file
 	 */
 	private void setGravity(NodeList gravity){
-		float direction = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Attributes.DIRECTION).getNodeValue());
-	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
+		float direction = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Constants.DIRECTION).getNodeValue());
+	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Constants.MAGNITUDE).getNodeValue());
 
 	    Gravity g = new Gravity(direction, magnitude);
 	    WorldManager.getWorld().addForce(g);
@@ -70,7 +70,7 @@ public class EnvironmentalParser extends Parser{
 	 * @param viscosity - NodeList of the viscosity element in the data file
 	 */
 	private void setViscosity(NodeList viscosity){
-	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
+	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem(Constants.MAGNITUDE).getNodeValue());
 
 	    Viscosity v = new Viscosity(magnitude);
 	    WorldManager.getWorld().addForce(v);
@@ -81,8 +81,8 @@ public class EnvironmentalParser extends Parser{
 	 * @param centerMass - NodeList of the center of mass element in the data file
 	 */
 	private void setCenterMass(NodeList centerMass){
-		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
-	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Attributes.EXPONENT).getNodeValue());
+		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Constants.MAGNITUDE).getNodeValue());
+	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Constants.EXPONENT).getNodeValue());
 	    
 	    CenterOfMass com = new CenterOfMass(magnitude,exponent);
 	    WorldManager.getWorld().addForce(com);
@@ -94,28 +94,28 @@ public class EnvironmentalParser extends Parser{
 	 */
 	private void setWalls(NodeList walls){
 	    for(int i=0; i<walls.getLength(); i++){
-	    	String id = walls.item(i).getAttributes().getNamedItem(Attributes.ID).getNodeValue();
+	    	String id = walls.item(i).getAttributes().getNamedItem(Constants.ID).getNodeValue();
 	    	float magnitude = 0;
-	    	float exponent = Float.parseFloat(walls.item(i).getAttributes().getNamedItem(Attributes.EXPONENT).getNodeValue());
-	    	if (id.equals(Attributes.CEILING_ID)){
+	    	float exponent = Float.parseFloat(walls.item(i).getAttributes().getNamedItem(Constants.EXPONENT).getNodeValue());
+	    	if (id.equals(Constants.CEILING_ID)){
 	    		Wall ceiling = new TopWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 	    		ceiling.setPos(myEngine.displayWidth()/2, wall_margin);
 	    		ceiling.setRepulsionForce(magnitude,exponent);
 	    		WorldManager.getWorld().addWall(id, ceiling);
 	    	}
-	    	else if (id.equals(Attributes.FLOOR_ID)){
+	    	else if (id.equals(Constants.FLOOR_ID)){
 	    		Wall floor = new BottomWall(id, 2, JGColor.green, wall_width, WALL_THICKNESS);
 				floor.setPos(myEngine.displayWidth()/2, myEngine.displayHeight() - wall_margin);
 				floor.setRepulsionForce(magnitude,exponent);
 				WorldManager.getWorld().addWall(id, floor);
 	    	}
-	    	else if (id.equals(Attributes.LEFT_WALL_ID)){
+	    	else if (id.equals(Constants.LEFT_WALL_ID)){
 	    		Wall left = new LeftWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		left.setPos(wall_margin, myEngine.displayHeight()/2);
 	    		left.setRepulsionForce(magnitude,exponent);
 	    		WorldManager.getWorld().addWall(id, left);
 	    	}
-	    	else if (id.equals(Attributes.RIGHT_WALL_ID)){
+	    	else if (id.equals(Constants.RIGHT_WALL_ID)){
 	    		Wall right = new RightWall(id, 2, JGColor.green, WALL_THICKNESS, wall_height);
 	    		right.setPos(myEngine.displayWidth()-wall_margin, myEngine.displayHeight()/2);
 	    		right.setRepulsionForce(magnitude,exponent);
@@ -139,7 +139,7 @@ public class EnvironmentalParser extends Parser{
 	public void makeNewWalls(double newMargin){
 		wall_margin+=newMargin;
 		setWallDimensions();
-		setWalls(myDocument.getElementsByTagName(Attributes.WALL_ELEMENT));
+		setWalls(myDocument.getElementsByTagName(Constants.WALL_ELEMENT));
 	}
 
 }

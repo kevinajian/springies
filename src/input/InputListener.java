@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.io.File;
 
 import objects.wall.*;
-import parser.Attributes;
+import parser.Constants;
 import parser.EnvironmentalParser;
 import springies.Springies;
 import externalForces.*;
@@ -60,19 +60,19 @@ public class InputListener extends AbstractListener{
 			myEngine.clearKey(KeyEvent.VK_M);
 		}
 		if (getKey(KeyEvent.VK_1)){
-			WallForceToggle(Attributes.CEILING_ID);
+			WallForceToggle(Constants.CEILING_ID);
 			myEngine.clearKey(KeyEvent.VK_1);
 		}
 		if (getKey(KeyEvent.VK_2)){
-			WallForceToggle(Attributes.RIGHT_WALL_ID);
+			WallForceToggle(Constants.RIGHT_WALL_ID);
 			myEngine.clearKey(KeyEvent.VK_2);
 		}
 		if (getKey(KeyEvent.VK_3)){
-			WallForceToggle(Attributes.FLOOR_ID);
+			WallForceToggle(Constants.FLOOR_ID);
 			myEngine.clearKey(KeyEvent.VK_3);
 		}
 		if (getKey(KeyEvent.VK_4)){
-			WallForceToggle(Attributes.LEFT_WALL_ID);
+			WallForceToggle(Constants.LEFT_WALL_ID);
 			myEngine.clearKey(KeyEvent.VK_4);
 		}
 		// change the walled size area
