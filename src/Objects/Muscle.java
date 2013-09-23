@@ -11,10 +11,10 @@ public class Muscle extends PhysicalSpring {
 	public static final float DEFAULT_FREQUENCY = 20;
 	public static final int DEFAULT_CID = 2;
 
-	public float myRestLength;
-	public float mySpringyness;
-	public float myAmplitude;
-	public float myFrequency;
+	private float myRestLength;
+	private float mySpringyness;
+	private float myAmplitude;
+	private float myFrequency;
 	
 	/**
 	 * 
