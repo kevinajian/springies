@@ -10,7 +10,7 @@ public class Viscosity extends FixedForce {
 
 	public Viscosity(float magnitude) {
 		super(magnitude, new Vec2());
-		float scaling = (float) 0.5;
+		float scaling = (float) 1.245;
 		myMagnitude = (scaling*magnitude);
 	}
 	

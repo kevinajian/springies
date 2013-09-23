@@ -32,6 +32,7 @@ public class CustomWorld extends World {
 	private List<Force> myForces = new ArrayList<Force>();
 	private List<Assembly> myAssemblies = new ArrayList<Assembly>();
 	private Map<String, Wall> myWalls = new HashMap<String, Wall>();
+	private double[] myWallDimensions = new double[]{10, 0, 0};
 	
 	/**
 	 * 
@@ -195,6 +196,24 @@ public class CustomWorld extends World {
 		return myWalls.get(id);
 	}
 
+	/**
+	 * 
+	 * @return - returns current wall dimensions
+	 */
+	public double[] getWallDimensions(){
+		return myWallDimensions;
+	}
+	
+	/**
+	 * Sets new wall dimensions
+	 * @param newWallDimensions - double[] of new wall dimensions
+	 */
+	public void setWallDimensions(double[] newWallDimensions){
+		myWallDimensions[0] = newWallDimensions[0];
+		myWallDimensions[1] = newWallDimensions[1];
+		myWallDimensions[2] = newWallDimensions[2];
+	}
+	
 	/**
 	 * Clears all of the walls from the world
 	 */

@@ -48,8 +48,8 @@ public class EnvironmentalParser extends Parser{
 	@Override
 	public void parse() {
 		setGravity(myDocument.getElementsByTagName(Constants.GRAVITY_ELEMENT));
-		//setViscosity(myDocument.getElementsByTagName(Attributes.VISCOSITY_ELEMENT));
-		//setCenterMass(myDocument.getElementsByTagName(Attributes.CENTER_OF_MASS_ELEMENT));
+		setViscosity(myDocument.getElementsByTagName(Constants.VISCOSITY_ELEMENT));
+		setCenterMass(myDocument.getElementsByTagName(Constants.CENTER_OF_MASS_ELEMENT));
 		setWalls(myDocument.getElementsByTagName(Constants.WALL_ELEMENT));
 	}
 
@@ -130,6 +130,7 @@ public class EnvironmentalParser extends Parser{
 	private void setWallDimensions(){
 		wall_width  = myEngine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
 		wall_height = myEngine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
+		WorldManager.getWorld().setWallDimensions(new double[]{wall_margin, wall_width, wall_height});
 	}
 	
 	/**
@@ -137,9 +138,9 @@ public class EnvironmentalParser extends Parser{
 	 * @param newMargin - double that contains the new value for the margin
 	 */
 	public void makeNewWalls(double newMargin){
-		wall_margin+=newMargin;
+		double[] oldWallDimensions = WorldManager.getWorld().getWallDimensions();
+		wall_margin = oldWallDimensions[0] + newMargin;
 		setWallDimensions();
 		setWalls(myDocument.getElementsByTagName(Constants.WALL_ELEMENT));
 	}
-
 }

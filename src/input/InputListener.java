@@ -19,16 +19,13 @@ import jgame.platform.JGEngine;
  */
 public class InputListener extends AbstractListener{
 	private Springies myEngine;
-	private EnvironmentalParser myParser;
 	
 	/**
 	 * Sets engine and parser to be used
 	 * @param engine - JGEngine that contains the simulation
-	 * @param environmentParser - EnvironmentalParser that set the forces and created the walls
 	 */
-	public InputListener(Springies engine, EnvironmentalParser environmentParser){
+	public InputListener(Springies engine){
 		myEngine = engine;
-		myParser = environmentParser;
 	}
 	
 	/**
@@ -113,6 +110,8 @@ public class InputListener extends AbstractListener{
 	 */
 	private void makeNewWalls(double newMargin){
 		WorldManager.getWorld().clearWalls();
-		myParser.makeNewWalls(newMargin);
+		File file = new File(myEngine.getXMLFilepath(myEngine.DEFAULT_ENVIRONMENT_FILEPATH));
+		EnvironmentalParser environmentParser = new EnvironmentalParser(file, myEngine);
+		environmentParser.makeNewWalls(newMargin);
 	}
 }

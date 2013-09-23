@@ -68,14 +68,14 @@ public class Springies extends JGEngine
 	@Override
 	public void initGame( )
 	{
-		setFrameRate( 60, 2 );
+		setFrameRate( 60 , 2 );
 		
 		WorldManager.initWorld( this );
 		
 		setupEnvironment();
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 		
-		myInputListener = new InputListener(this, myEnvironmentParser);
+		myInputListener = new InputListener(this);
 		myMouseListener = new MouseListener(this);
 
 	}
@@ -111,9 +111,6 @@ public class Springies extends JGEngine
 		return xmlDir+"/"+filename;
 	}
 	
-	/**
-	 * Uses the environment data file and 
-	 */
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
