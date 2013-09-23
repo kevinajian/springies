@@ -23,7 +23,6 @@ public class InputListener extends AbstractListener{
 	/**
 	 * Sets engine and parser to be used
 	 * @param engine - JGEngine that contains the simulation
-	 * @param environmentParser - EnvironmentalParser that set the forces and created the walls
 	 */
 	public InputListener(Springies engine){
 		myEngine = engine;
