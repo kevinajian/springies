@@ -39,8 +39,10 @@ public class Springies extends JGEngine
 	private int frame = 0;
 	private static final String xmlDir = "assets";
 	private static final String DEFAULT_ASSEMBLY_FILEPATH = "ball.xml"; 
-	private static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
+	public static final String DEFAULT_ENVIRONMENT_FILEPATH = "environment.xml"; 
 	private MouseListener myMouseListener;
+	private InputListener myInputListener;
+	private EnvironmentalParser myEnvironmentParser;
 	public Springies( )
 	{
 		// set the window size
@@ -73,6 +75,7 @@ public class Springies extends JGEngine
 		setupEnvironment();
 		loadAssembly(DEFAULT_ASSEMBLY_FILEPATH);
 		
+		myInputListener = new InputListener(this, myEnvironmentParser);
 		myMouseListener = new MouseListener(this);
 
 	}
@@ -84,8 +87,7 @@ public class Springies extends JGEngine
 	public void doFrame( )
 	{
 		frame++;
-		InputListener inputListener = new InputListener((this));
-		inputListener.listen();
+		myInputListener.listen();
 		myMouseListener.listen();
 		
 		WorldManager.getWorld().step( 1f, 1 );
@@ -105,15 +107,15 @@ public class Springies extends JGEngine
 		parser.parse();
 	}
 	
-	private String getXMLFilepath(String filename){
+	public String getXMLFilepath(String filename){
 		return xmlDir+"/"+filename;
 	}
 	
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
-			EnvironmentalParser environmentParser = new EnvironmentalParser(environment, this);
-				environmentParser.parse();	
+			myEnvironmentParser = new EnvironmentalParser(environment, this);
+				myEnvironmentParser.parse();	
 		}
 	}
 	

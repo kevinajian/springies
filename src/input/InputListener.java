@@ -3,29 +3,30 @@ package input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import objects.wall.*;
+import parser.Attributes;
 import parser.EnvironmentalParser;
 import springies.Springies;
 import externalForces.*;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
-
-
 public class InputListener extends AbstractListener{
-	private JGEngine myEngine;
+	private Springies myEngine;
 	private EnvironmentalParser myParser;
 	
-	public InputListener(JGEngine engine){
+	public InputListener(Springies engine, EnvironmentalParser environmentParser){
 		myEngine = engine;
+		myParser = environmentParser;
 	}
 	
 	@Override
-	public void listen(){//KeyEvent e){
+	public void listen(){
 		// checks to create / clear assemblies
 		if(getKey(KeyEvent.VK_N)){
-			new AssemblyLoaderDialog((Springies) myEngine);
+			new AssemblyLoaderDialog(myEngine);
 			myEngine.clearKey(KeyEvent.VK_N);
 		}
 		if(getKey(KeyEvent.VK_C)){
@@ -46,19 +47,19 @@ public class InputListener extends AbstractListener{
 			myEngine.clearKey(KeyEvent.VK_M);
 		}
 		if (getKey(KeyEvent.VK_1)){
-			WallForceToggle("1");
+			WallForceToggle(Attributes.CEILING_ID);
 			myEngine.clearKey(KeyEvent.VK_1);
 		}
 		if (getKey(KeyEvent.VK_2)){
-			WallForceToggle("2");
+			WallForceToggle(Attributes.RIGHT_WALL_ID);
 			myEngine.clearKey(KeyEvent.VK_2);
 		}
 		if (getKey(KeyEvent.VK_3)){
-			WallForceToggle("3");
+			WallForceToggle(Attributes.FLOOR_ID);
 			myEngine.clearKey(KeyEvent.VK_3);
 		}
 		if (getKey(KeyEvent.VK_4)){
-			WallForceToggle("4");
+			WallForceToggle(Attributes.LEFT_WALL_ID);
 			myEngine.clearKey(KeyEvent.VK_4);
 		}
 		// change the walled size area
@@ -72,7 +73,6 @@ public class InputListener extends AbstractListener{
 			makeNewWalls(newMargin);
 			myEngine.clearKey(KeyEvent.VK_UP);
 		}
-		
 	}
 	
 	private boolean getKey(int keyCode){
@@ -83,10 +83,9 @@ public class InputListener extends AbstractListener{
 		Wall currWall = WorldManager.getWorld().getWall(id);
 		WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 		currWallRepulsionForce.toggleWallForce();
-		myParser.setWallRepulsionForceToggle(Integer.parseInt(id)-1);
 	}
 	
-	public void makeNewWalls(double newMargin){
+	private void makeNewWalls(double newMargin){
 		WorldManager.getWorld().clearWalls();
 		myParser.makeNewWalls(newMargin);
 	}

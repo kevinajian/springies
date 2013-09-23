@@ -18,6 +18,7 @@ public class AssemblyLoaderDialog extends JFrame {
 	private JTextField myTextField = new JTextField(20);
 	private Springies mySpringies;
 	
+	// Creates graphical box for user to take in new assembly file
 	public AssemblyLoaderDialog(Springies springies) {
 		setTitle("Input");
 		setVisible(true);
