@@ -4,49 +4,50 @@ Tyler Nisonoff, Kevin Jian
 
 Started 9/10
 2 hours planning.
-lot of hours for implementation
+Lots of hours for implementation.
 
-end, hours
+Ended 9/22
 
 Respository: https://github.com/duke-compsci308-fall2013/springies_team02.git
 
-for team projects, each person's role in developing the project
+For team projects, each person's role in developing the project
 -----------
-for plan:
-	created basic design layout together
-for implementation 1:<br>
-	tyler - object classes, force classes, custom world<br>
-	kevin - parser, creating objects, setting environment<br>
-for implementation 2:<br>
-	tyler - n loads new assembly, c clears all assemblies<br>
-		  - mouse creates new mass, spring
-	Kevin - toggle forces
-		  - change playing size
+For plan:
+	Created basic design layout together
+For implementation 1:<br>
+	Tyler - Object classes, force classes, custom world<br>
+	Kevin - Parser, creating objects, setting environment<br>
+For implementation 2:<br>
+	Tyler - Loading new assemblies and clearing all assemblies<br>
+		  - Allowing mouse to move assembly
+	Kevin - Toggle forces
+		  - Change playing size
 
-any books, papers, online, or human resources that you used in developing the project
+Any books, papers, online, or human resources that you used in developing the project
 --------
 http://www.box2d.org/manual.html#_Toc258082967 <br>
 http://www.cs4fn.org/alife/images/sodamathspaperfull.pdf
 
-files used to start the project (i.e., the class containing main) and test the project (the class containing TestSuite)
+Files used to start the project (i.e., the class containing main) and test the project (the class containing TestSuite)
 -----------
-main
-no test file yet
+Main starts file.
+No test files.
 
-any data or resource files required by the project (including format of non-standard files)
+Any data or resource files required by the project (including format of non-standard files)
 ---------
-xml files in assets
+Assembly and environment data files in found in assets
 
-any information about using the program (i.e., command-line/applet arguments, key inputs, interesting example data files, or easter eggs)
+Any information about using the program (i.e., command-line/applet arguments, key inputs, interesting example data files, or easter eggs)
 ---------------
+'n' will bring up a dialog box where the user can type in the data file and press enter to load it. To load another, just type a new file name in the dialog box and press enter again, or close the original dialog box and press 'n' again to open a new one.
 
-any known bugs, crashes, or problems with the project's functionality
+Any known bugs, crashes, or problems with the project's functionality
 -------------
+There is a finite number of assemblies that can be loaded within the simulation.
 
-any extra features included in the project
+Any extra features included in the project
 ----------------
 
-
-your impressions of the assignment to help improve it in the future
+Your impressions of the assignment to help improve it in the future
 ----------
-kind of physics heavy, lot of ambiguities regarding that and how the program should function with regards to the example sodaconstructor
+Kind of physics heavy, lot of ambiguities regarding that and how the program should function with regards to the example sodaconstructor
