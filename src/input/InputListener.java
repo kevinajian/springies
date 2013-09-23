@@ -1,5 +1,4 @@
 package input;
-//import org.lwjgl.input.Keyboard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,15 +12,29 @@ import externalForces.*;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
+/**
+ * Listener that checks for input during the simulation
+ * @author Kevin
+ *
+ */
 public class InputListener extends AbstractListener{
 	private Springies myEngine;
 	private EnvironmentalParser myParser;
 	
+	/**
+	 * Sets engine and parser to be used
+	 * @param engine - JGEngine that contains the simulation
+	 * @param environmentParser - EnvironmentalParser that set the forces and created the walls
+	 */
 	public InputListener(Springies engine, EnvironmentalParser environmentParser){
 		myEngine = engine;
 		myParser = environmentParser;
 	}
 	
+	/**
+	 * Implemented in doFrame of Springies
+	 * Checks for input and chooses proper reaction
+	 */
 	@Override
 	public void listen(){
 		// checks to create / clear assemblies
@@ -75,16 +88,29 @@ public class InputListener extends AbstractListener{
 		}
 	}
 	
+	/**
+	 * Gets the status of JGEngine for the key pressed
+	 * @param keyCode code for the key pressed
+	 * @return returns if the key was pressed
+	 */
 	private boolean getKey(int keyCode){
 		return myEngine.getKey(keyCode);
 	}
 	
+	/**
+	 * Toggles the wall repulsion force
+	 * @param id - String for the wall name
+	 */
 	private void WallForceToggle(String id){
 		Wall currWall = WorldManager.getWorld().getWall(id);
 		WallRepulsion currWallRepulsionForce = currWall.getRepulsionForce();
 		currWallRepulsionForce.toggleWallForce();
 	}
 	
+	/**
+	 * Creates new walls based on the new margin
+	 * @param newMargin - double of the size of the margin of the new walls being created
+	 */
 	private void makeNewWalls(double newMargin){
 		WorldManager.getWorld().clearWalls();
 		myParser.makeNewWalls(newMargin);

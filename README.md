@@ -42,7 +42,6 @@ any information about using the program (i.e., command-line/applet arguments, ke
 
 any known bugs, crashes, or problems with the project's functionality
 -------------
-- objects drift to the left
 
 any extra features included in the project
 ----------------

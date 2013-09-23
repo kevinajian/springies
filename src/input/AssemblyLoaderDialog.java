@@ -11,6 +11,10 @@ import javax.swing.JTextField;
 
 import springies.Springies;
 
+/**
+ * Creates dialog box to take user input of file name of assembly to be created
+ * @author Kevin
+ */
 public class AssemblyLoaderDialog extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel myPanel = new JPanel();
@@ -18,7 +22,10 @@ public class AssemblyLoaderDialog extends JFrame {
 	private JTextField myTextField = new JTextField(20);
 	private Springies mySpringies;
 	
-	// Creates graphical box for user to take in new assembly file
+	/** 
+	 * Creates graphical box for user to take in new assembly file
+	 * @param springies - Springies engine that contains the simulation
+	 */
 	public AssemblyLoaderDialog(Springies springies) {
 		setTitle("Input");
 		setVisible(true);
@@ -37,7 +44,10 @@ public class AssemblyLoaderDialog extends JFrame {
 		mySpringies = springies;
 	}
 	
-	// Uses the user input to access the specified data file
+	/**
+	 * Uses the user input to access the specified data file
+	 * @param filename - String of data file to be accessed
+	 */
 	private void handleUserSubmission(String filename){
 		mySpringies.loadAssembly(filename);
 	}

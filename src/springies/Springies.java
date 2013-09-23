@@ -122,6 +122,6 @@ public class Springies extends JGEngine
 	@Override
 	public void paintFrame( )
 	{
-
+		// does nothing. the objects paint themselves.
 	}
 }
