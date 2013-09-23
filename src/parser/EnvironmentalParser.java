@@ -48,8 +48,8 @@ public class EnvironmentalParser extends Parser{
 	@Override
 	public void parse() {
 		setGravity(myDocument.getElementsByTagName(Attributes.GRAVITY_ELEMENT));
-		setViscosity(myDocument.getElementsByTagName(Attributes.VISCOSITY_ELEMENT));
-		setCenterMass(myDocument.getElementsByTagName(Attributes.CENTER_OF_MASS_ELEMENT));
+		//setViscosity(myDocument.getElementsByTagName(Attributes.VISCOSITY_ELEMENT));
+		//setCenterMass(myDocument.getElementsByTagName(Attributes.CENTER_OF_MASS_ELEMENT));
 		setWalls(myDocument.getElementsByTagName(Attributes.WALL_ELEMENT));
 	}
 
