@@ -25,12 +25,23 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
+/**
+ * A parser to parse the data file provided and create an assembly from it, including masses, fixed masses, springs, and muscles
+ * @author Kevin
+ */
 public class AssemblyParser extends Parser{
+	/**
+	 * 
+	 * @param file - File that contains the mass and spring elements
+	 * @param engine - JGEngine that contains the current physics simulation
+	 */
 	public AssemblyParser(File file, JGEngine engine){
 		super(file, engine);
 	}
 	
-	// Creates assembly from data file
+	/**
+	 * Creates assembly from data file
+	 */
 	public void parse(){
 		Map<String, Mass> masses = getTotalMassMap();
 		List<PhysicalSpring> springs = getAllSprings(masses);
@@ -38,7 +49,10 @@ public class AssemblyParser extends Parser{
 		WorldManager.getWorld().addAssembly(assembly);
 	}
 	
-	// Finds all mass and fixed mass elements within the data file, creates and stores them.
+	/**
+	 *  Finds all mass and fixed mass elements within the data file, creates and stores them.
+	 * @return Map of all the Masses in the assembly
+	 */
 	private Map<String, Mass> getTotalMassMap(){
 		Map<String, Mass> masses = createMasses(myDocument.getElementsByTagName(Attributes.MASS_ELEMENT),(float) myEngine.displayHeight(), false);
 		Map<String, Mass> fixedMasses = createMasses(myDocument.getElementsByTagName(Attributes.FIXED_MASS_ELEMENT),(float) myEngine.displayHeight(), true);
@@ -48,7 +62,11 @@ public class AssemblyParser extends Parser{
 		return allMasses;
 	}
 	
-	// Finds all spring and muscle elements within the data file, creates and stores them.
+	/**
+	 * Finds all spring and muscle elements within the data file, creates and stores them.
+	 * @param masses - Map of all the masses in the current assembly
+	 * @return List of all the Springs in the assembly
+	 */
 	private List<PhysicalSpring> getAllSprings(Map<String, Mass> masses){
 		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();
 		springs.addAll(createMusclesAndSprings(myDocument.getElementsByTagName(Attributes.SPRING_ELEMENT), masses));
@@ -56,7 +74,14 @@ public class AssemblyParser extends Parser{
 		return springs;
 	}
 	
-	// Creates masses and fixed masses using attributes from the data file.
+	/**
+	 * Creates masses and fixed masses using attributes from the data file
+	 * @param masses - NodeList of all mass and fixed mass elements in the data file
+	 * @param gameHeight - float of display height of simulation
+	 * @param gameWidth - float of display width of simulation
+	 * @param isFixed - boolean for whether the masses being made are fixed or not
+	 * @return Map of all the masses and fixed masses in the assembly 
+	 */
 	private Map<String, Mass> createMasses(NodeList masses, float gameHeight, boolean isFixed){
 		HashMap<String, Mass> massMap = new HashMap<String, Mass>();
 		for (int i=0; i<masses.getLength(); i++){
@@ -83,7 +108,12 @@ public class AssemblyParser extends Parser{
 		return massMap;
 	}
 	  
-	// Creates muscles and springs using attributes from the data file.
+	/**
+	 * Creates muscles and springs using attributes from the data file.
+	 * @param musclesAndSprings - NodeList of all the muscle and spring nodes from the data file
+	 * @param massMap - Map of all the masses in the assembly
+	 * @return List of Springs and Muscles in the assembly
+	 */
 	private List<PhysicalSpring> createMusclesAndSprings(NodeList musclesAndSprings, Map<String, Mass> massMap){
 		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();
 	    for (int i=0; i<musclesAndSprings.getLength(); i++){
@@ -113,7 +143,12 @@ public class AssemblyParser extends Parser{
 	    return springs;
 	}
 	
-	// Check if the given node has the particular attribute within it.
+	/**
+	 * Checks if the given node has the particular attribute within it
+	 * @param attributes - NamedNodeMap of node being looked at
+	 * @param attribute - name of the attribute being looked for
+	 * @return boolean of if the node has the element in it
+	 */
 	private boolean hasAttribute(NamedNodeMap attributes, String attribute){
 	    for (int i=0; i<attributes.getLength(); i++){
 	    	if (attributes.item(i).getNodeName().equals(attribute)) return true;

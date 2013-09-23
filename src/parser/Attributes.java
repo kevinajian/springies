@@ -1,5 +1,8 @@
 package parser;
-
+/**
+ * Names of the elements and attributes within the data and environment files
+ * @author Kevin
+ */
 public class Attributes {
 	public static final String MASS_ELEMENT = "mass";
 	public static final String FIXED_MASS_ELEMENT = "fixed";

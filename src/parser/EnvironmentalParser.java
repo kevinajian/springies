@@ -19,6 +19,10 @@ import externalForces.CenterOfMass;
 import externalForces.Gravity;
 import externalForces.Viscosity;
 
+/**
+ * A parser to parse the environment file provided and set gravity, viscosity, and center of mass, as well as create walls and set wall repulsion forces
+ * @author Kevin
+ */
 public class EnvironmentalParser extends Parser{
 	private double wall_margin = 10;
 	private final double WALL_THICKNESS = 10;
@@ -26,6 +30,11 @@ public class EnvironmentalParser extends Parser{
 	private double wall_height;
 	private JGEngine myEngine;
 
+	/**
+	 * 
+	 * @param file - File that contains the environment elements and attributes
+	 * @param engine - JGEngine that contains the current physics simulation
+	 */
 	public EnvironmentalParser(File file, JGEngine engine) {
 		super(file, engine);
 		myEngine = engine;
@@ -33,6 +42,9 @@ public class EnvironmentalParser extends Parser{
 		wall_height = engine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
 	}
 
+	/**
+	 * Parses environment data file for forces and walls.
+	 */
 	@Override
 	public void parse() {
 		setGravity(myDocument.getElementsByTagName(Attributes.GRAVITY_ELEMENT));
@@ -41,7 +53,10 @@ public class EnvironmentalParser extends Parser{
 		setWalls(myDocument.getElementsByTagName(Attributes.WALL_ELEMENT));
 	}
 
-	// Sets gravitational force based on environment data file.
+	/**
+	 * Sets gravitational force based on environment data file.
+	 * @param gravity - NodeList of the gravity element in the data file
+	 */
 	private void setGravity(NodeList gravity){
 		float direction = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Attributes.DIRECTION).getNodeValue());
 	    float magnitude = Float.parseFloat(gravity.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
@@ -50,7 +65,10 @@ public class EnvironmentalParser extends Parser{
 	    WorldManager.getWorld().addForce(g);
 	}
 
-	// Sets viscosity force based on environment data file
+	/** 
+	 * Sets viscosity force based on environment data file
+	 * @param viscosity - NodeList of the viscosity element in the data file
+	 */
 	private void setViscosity(NodeList viscosity){
 	    float magnitude = Float.parseFloat(viscosity.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
 
@@ -58,7 +76,10 @@ public class EnvironmentalParser extends Parser{
 	    WorldManager.getWorld().addForce(v);
 	}
 
-	// Sets center of mass force based on environment data file
+	/**
+	 * Sets center of mass force based on environment data file
+	 * @param centerMass - NodeList of the center of mass element in the data file
+	 */
 	private void setCenterMass(NodeList centerMass){
 		float magnitude = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Attributes.MAGNITUDE).getNodeValue());
 	    float exponent = Float.parseFloat(centerMass.item(0).getAttributes().getNamedItem(Attributes.EXPONENT).getNodeValue());
@@ -67,7 +88,10 @@ public class EnvironmentalParser extends Parser{
 	    WorldManager.getWorld().addForce(com);
 	}
 	 
-	// Creates walls and sets wall repulsion forces based on environment data file
+	/** 
+	 * Creates walls and sets wall repulsion forces based on environment data file
+	 * @param walls - NodeList of the walls elements in the data file.
+	 */
 	private void setWalls(NodeList walls){
 	    for(int i=0; i<walls.getLength(); i++){
 	    	String id = walls.item(i).getAttributes().getNamedItem(Attributes.ID).getNodeValue();
@@ -100,13 +124,18 @@ public class EnvironmentalParser extends Parser{
 	    }
 	}
 
-	// Sets height and width of walls based on current wall margins.
+	/** 
+	 * Sets height and width of walls based on current wall margins.
+	 */
 	private void setWallDimensions(){
 		wall_width  = myEngine.displayWidth() - wall_margin*2 + WALL_THICKNESS;
 		wall_height = myEngine.displayHeight() - wall_margin*2 + WALL_THICKNESS;
 	}
 	
-	// Creates new walls based on new margin.
+	/**
+	 * Creates new walls based on new margin.
+	 * @param newMargin - double that contains the new value for the margin
+	 */
 	public void makeNewWalls(double newMargin){
 		wall_margin+=newMargin;
 		setWallDimensions();

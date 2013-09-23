@@ -37,6 +37,7 @@ public class AssemblyLoaderDialog extends JFrame {
 		mySpringies = springies;
 	}
 	
+	// Uses the user input to access the specified data file
 	private void handleUserSubmission(String filename){
 		mySpringies.loadAssembly(filename);
 	}
