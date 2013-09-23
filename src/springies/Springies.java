@@ -111,6 +111,9 @@ public class Springies extends JGEngine
 		return xmlDir+"/"+filename;
 	}
 	
+	/**
+	 * Uses the environment data file and 
+	 */
 	private void setupEnvironment(){
 		File environment = new File(getXMLFilepath(DEFAULT_ENVIRONMENT_FILEPATH));
 		if (environment.exists()){
