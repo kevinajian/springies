@@ -54,8 +54,8 @@ public class AssemblyParser extends Parser{
 	 * @return Map of all the Masses in the assembly
 	 */
 	private Map<String, Mass> getTotalMassMap(){
-		Map<String, Mass> masses = createMasses(myDocument.getElementsByTagName(Attributes.MASS_ELEMENT),(float) myEngine.displayHeight(), false);
-		Map<String, Mass> fixedMasses = createMasses(myDocument.getElementsByTagName(Attributes.FIXED_MASS_ELEMENT),(float) myEngine.displayHeight(), true);
+		Map<String, Mass> masses = createMasses(myDocument.getElementsByTagName(Constants.MASS_ELEMENT),(float) myEngine.displayHeight(), false);
+		Map<String, Mass> fixedMasses = createMasses(myDocument.getElementsByTagName(Constants.FIXED_MASS_ELEMENT),(float) myEngine.displayHeight(), true);
 		Map<String, Mass> allMasses = new HashMap<String, Mass>();
 		allMasses.putAll(masses);
 		allMasses.putAll(fixedMasses);
@@ -69,8 +69,8 @@ public class AssemblyParser extends Parser{
 	 */
 	private List<PhysicalSpring> getAllSprings(Map<String, Mass> masses){
 		List<PhysicalSpring> springs = new ArrayList<PhysicalSpring>();
-		springs.addAll(createMusclesAndSprings(myDocument.getElementsByTagName(Attributes.SPRING_ELEMENT), masses));
-		springs.addAll(createMusclesAndSprings(myDocument.getElementsByTagName(Attributes.MUSCLE_ELEMENT), masses));
+		springs.addAll(createMusclesAndSprings(myDocument.getElementsByTagName(Constants.SPRING_ELEMENT), masses));
+		springs.addAll(createMusclesAndSprings(myDocument.getElementsByTagName(Constants.MUSCLE_ELEMENT), masses));
 		return springs;
 	}
 	
@@ -87,20 +87,20 @@ public class AssemblyParser extends Parser{
 		for (int i=0; i<masses.getLength(); i++){
 			Node currMassObject = masses.item(i);
 			NamedNodeMap currMassAttr = currMassObject.getAttributes();
-			String id = currMassAttr.getNamedItem(Attributes.ID).getNodeValue();
-			double x = Double.parseDouble(currMassAttr.getNamedItem(Attributes.X_POS).getNodeValue());
-			double y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem(Attributes.Y_POS).getNodeValue());
+			String id = currMassAttr.getNamedItem(Constants.ID).getNodeValue();
+			double x = Double.parseDouble(currMassAttr.getNamedItem(Constants.X_POS).getNodeValue());
+			double y = gameHeight - Double.parseDouble(currMassAttr.getNamedItem(Constants.Y_POS).getNodeValue());
 			if (isFixed){
 				FixedMass massObject =  new FixedMass(id,Mass.DEFAULT_CID,x,y);
 				massMap.put(id, massObject);
 			}
 			else {
 				double mass=Mass.DEFAULT_MASS;
-				if (hasAttribute(currMassAttr,Attributes.MASS)) mass = Double.parseDouble(currMassAttr.getNamedItem(Attributes.MASS).getNodeValue());
+				if (hasAttribute(currMassAttr,Constants.MASS)) mass = Double.parseDouble(currMassAttr.getNamedItem(Constants.MASS).getNodeValue());
 				float xVel=Mass.INITIAL_X_VELOCITY;
-				if (hasAttribute(currMassAttr,Attributes.X_VEL)) xVel = Float.parseFloat(currMassAttr.getNamedItem(Attributes.X_VEL).getNodeValue()); 
+				if (hasAttribute(currMassAttr,Constants.X_VEL)) xVel = Float.parseFloat(currMassAttr.getNamedItem(Constants.X_VEL).getNodeValue()); 
 				float yVel=Mass.INITIAL_Y_VELOCITY;
-				if (hasAttribute(currMassAttr,Attributes.Y_VEL)) yVel = Float.parseFloat(currMassAttr.getNamedItem(Attributes.Y_VEL).getNodeValue());
+				if (hasAttribute(currMassAttr,Constants.Y_VEL)) yVel = Float.parseFloat(currMassAttr.getNamedItem(Constants.Y_VEL).getNodeValue());
 				Mass massObject = new Mass(id,Mass.DEFAULT_CID,x,y,mass,xVel,yVel);
 				massMap.put(id, massObject);
 			}
@@ -120,23 +120,23 @@ public class AssemblyParser extends Parser{
 	    	Node curr = musclesAndSprings.item(i);
 	    	NamedNodeMap attr = curr.getAttributes();
 	    	Mass massA, massB;
-	    	massA = massMap.get(attr.getNamedItem(Attributes.MASS_A).getNodeValue()); 
-	    	massB = massMap.get(attr.getNamedItem(Attributes.MASS_B).getNodeValue());
+	    	massA = massMap.get(attr.getNamedItem(Constants.MASS_A).getNodeValue()); 
+	    	massB = massMap.get(attr.getNamedItem(Constants.MASS_B).getNodeValue());
 	    	float length = Muscle.DEFAULT_RESTLENGTH;
-	    	if (hasAttribute(attr,Attributes.REST_LENGTH)) length = Float.parseFloat(attr.getNamedItem(Attributes.REST_LENGTH).getNodeValue());
+	    	if (hasAttribute(attr,Constants.REST_LENGTH)) length = Float.parseFloat(attr.getNamedItem(Constants.REST_LENGTH).getNodeValue());
 	    	else length = massA.distance(massB);
 	    	float k = Muscle.DEFAULT_SPRINGYNESS;
-	    	if (hasAttribute(attr,Attributes.SPRINGYNESS)) k = Float.parseFloat(attr.getNamedItem(Attributes.SPRINGYNESS).getNodeValue());
+	    	if (hasAttribute(attr,Constants.SPRINGYNESS)) k = Float.parseFloat(attr.getNamedItem(Constants.SPRINGYNESS).getNodeValue());
 	    	PhysicalSpring spring;
-	    	if (hasAttribute(attr,Attributes.AMPLITUDE)) {
+	    	if (hasAttribute(attr,Constants.AMPLITUDE)) {
 	    		float amplitude = Muscle.DEFAULT_AMPLITUDE;
-	    		amplitude = Float.parseFloat(attr.getNamedItem(Attributes.AMPLITUDE).getNodeValue());
+	    		amplitude = Float.parseFloat(attr.getNamedItem(Constants.AMPLITUDE).getNodeValue());
 	    		float frequency = Muscle.DEFAULT_FREQUENCY;
-	    		spring = new Muscle(Attributes.MUSCLE_ELEMENT, Muscle.DEFAULT_CID , massA, massB, length, k, amplitude, frequency);
+	    		spring = new Muscle(Constants.MUSCLE_ELEMENT, Muscle.DEFAULT_CID , massA, massB, length, k, amplitude, frequency);
 	    		springs.add(spring);
 	    	}
 	    	else {
-	    		spring = new Spring(Attributes.SPRING_ELEMENT, Muscle.DEFAULT_CID, massA, massB, length, k);
+	    		spring = new Spring(Constants.SPRING_ELEMENT, Muscle.DEFAULT_CID, massA, massB, length, k);
 	    		springs.add(spring);
 	    	}
 	    }

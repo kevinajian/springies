@@ -21,7 +21,8 @@ public class CenterOfMass extends Force{
 	 */
 	public CenterOfMass(float magnitude, float exponent){
 		super(new Vec2(), exponent);
-		myMagnitude = magnitude;
+		float scaling = (float) .005;
+		myMagnitude = (scaling*magnitude);
 	}
 
 	@Override
@@ -36,7 +37,6 @@ public class CenterOfMass extends Force{
 		unitDirection.normalize();
 		
 		Vec2 forceToApply = getForceToApply(unitDirection, distance);
-		
 		obj.applyForce(forceToApply);
 	}
 	
