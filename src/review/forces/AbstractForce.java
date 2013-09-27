@@ -102,7 +102,8 @@ public abstract class AbstractForce implements Togglable {
 	 * @param obj object to apply the force to
 	 */
 	public void applyForceToObject(TestMass obj){
-		obj.applyForce(getForceToApply(obj));
+		if(isForceOn)
+			obj.applyForce(getForceToApply(obj));
 	}
 	
 	/**
